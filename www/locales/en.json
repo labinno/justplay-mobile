@@ -1,0 +1,32 @@
+{
+  "app_name" : "Just Play",
+
+  "login_username" : "Username",
+  "login_password" : "Password",
+
+  "tasks" : "Tasks",
+  "task_habits": "Habits",
+  "task_dailies": "Dailies",
+  "task_todos": "To-Dos",
+
+  "challenges" : "Challenges",
+  "challenges_group": "Group",
+  "challenges_member_count": "pers.",
+  "challenges_prize": "Prize",
+  "challenges_joined": "Joined",
+
+  "profile" : "Profile",
+  "profile_level": "Level",
+  "profile_class": "Class",
+
+  "action_ok": "OK",
+  "action_cancel": "Cancel",
+  "action_signin" : "Sign in",
+  "action_logout" : "Log out",
+  "action_join": "Join",
+
+  "notif_login_invalid": "Username or password invalid",
+  "notif_logout": "Log out from Just Play?",
+  "notif_sync" : "Synchronizing...",
+  "notif_not_challenge_member": "You are not member of the challenge"
+}

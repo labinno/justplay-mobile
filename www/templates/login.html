@@ -1,0 +1,18 @@
+<ion-view view-title="{{getLabel('app_name')}}">
+  <ion-content>
+
+    <div class="img_logocap"></div>
+
+    <form ng-submit="doLogin()">
+    <div class="list">
+      <label class="item item-input">
+        <input ng-model="login.username" class="text-center" type="text" placeholder="{{getLabel('login_username')}}">
+      </label>
+      <label class="item item-input">
+        <input ng-model="login.password" class="text-center" type="password" placeholder="{{getLabel('login_password')}}">
+      </label>
+      <button ng-click="doLogin()" class="button button-full button-royal" type="submit">{{getLabel('action_signin')}}</button>
+    </div>
+    </form>
+  </ion-content>
+</ion-view>

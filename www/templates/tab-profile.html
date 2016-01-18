@@ -1,0 +1,52 @@
+<ion-view view-title="{{getLabel('profile')}}">
+  <ion-nav-buttons side="right">
+    <i ng-show="!synchronizing" ng-click="sync()" class="button button-small button-icon icon ion-loop"></i>
+  </ion-nav-buttons>
+  <ion-content>
+
+    <div class="list">
+      <div class="item item-borderless item-thumbnail-left">
+        <div class="item-image img_avatar"></div>
+        <h2><b>{{profile.username}}</b></h2>
+        <p>{{profile.email}}</p>
+        <p>{{getLabel('profile_level')}}: <b>{{profile.level}}</b></p>
+        <p>{{getLabel('profile_class')}}: <b>{{profile.class}}</b></p>
+      </div>
+
+      <div class="item item-borderless row">
+        <div class="col col-33 positive money"><div class="img_diamond"></div> {{profile.gem}}</div>
+        <div class="col col-33 energized money"><div class="img_gold"></div> {{profile.gold}}</div>
+        <div class="col col-33 dark money"><div class="img_silver"></div> {{profile.silver}}</div>
+      </div>
+
+      <div class="item item-borderless item-divider"></div>
+
+      <div class="item item-borderless">
+        <div style="width: 100%; height: 30px; line-height: 30px" class="assertive">
+          <i class="icon ion-heart"></i> Health {{profile.health}} / {{profile.healthMax}}
+        </div>
+        <div style="width: 100%; height: 30px">
+          <div ng-style="{'width': profile.healthPercent + '%'}" style="height: inherit" class="assertive-bg"></div>
+        </div>
+
+        <div style="width: 100%; height: 30px; line-height: 30px; margin-top: 10px" class="energized">
+          <i class="icon ion-star"></i> Experience {{profile.exp}} / {{profile.expNextLevel}}
+        </div>
+        <div style="width: 100%; height: 30px">
+          <div ng-style="{'width': profile.expPercent + '%'}" style="height: inherit" class="energized-bg"></div>
+        </div>
+
+        <div style="width: 100%; height: 30px; line-height: 30px; margin-top: 10px" class="positive">
+          <i class="icon ion-fireball"></i> Mana {{profile.mana}} / {{profile.manaMax}}
+        </div>
+        <div style="width: 100%; height: 30px">
+          <div ng-style="{'width': profile.manaPercent + '%'}" style="height: inherit" class="positive-bg"></div>
+        </div>
+      </div>
+
+      <div class="item item-borderless item-divider"></div>
+    </div>
+
+    <button class="item button button-royal button-full" ng-click="logout()">{{getLabel('action_logout')}}</button>
+  </ion-content>
+</ion-view>

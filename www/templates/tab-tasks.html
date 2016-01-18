@@ -1,0 +1,44 @@
+<ion-view view-title="{{getLabel('tasks')}}">
+  <ion-nav-buttons side="right">
+    <i ng-show="!synchronizing" ng-click="sync()" class="button button-small button-icon icon ion-loop"></i>
+  </ion-nav-buttons>
+  <ion-content>
+    <div ng-repeat="task in tasks">
+      <ion-item class="item-stable"
+                ng-click="toggleTask(task)"
+                ng-class="{active: isTaskShown(task)}">
+        <span><i class="icon" ng-class="isTaskShown(task) ? 'ion-chevron-down' : 'ion-chevron-right'"></i></span>
+        <span>&nbsp;{{task.name}}</span>
+      </ion-item>
+      <ion-item class="item-accordion item-button-right"
+                ng-repeat="item in task.items"
+                ng-show="isTaskShown(task)">
+
+        {{item.text}}
+
+        <button ng-show="item.type === 'habit' && item.up && !item.down" class="button button-balanced">
+          <i class="icon ion-happy"></i>
+        </button>
+        <button ng-show="item.type === 'habit' && item.down && !item.up" class="button button-energized">
+          <i class="icon ion-sad"></i>
+        </button>
+        <div ng-show="item.type === 'habit' && item.down && item.up" class="buttons">
+          <button class="button button-balanced">
+            <i class="icon ion-happy"></i>
+          </button>
+          <button class="button button-energized">
+            <i class="icon ion-sad"></i>
+          </button>
+        </div>
+
+        <button ng-show="item.type === 'daily' && !item.completed" class="button button-balanced">
+          <i class="icon ion-checkmark-circled"></i>
+        </button>
+
+        <button ng-show="item.type === 'todo' && !item.completed" class="button button-balanced">
+          <i class="icon ion-checkmark-circled"></i>
+        </button>
+      </ion-item>
+    </div>
+  </ion-content>
+</ion-view>

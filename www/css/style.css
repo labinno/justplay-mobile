@@ -1,0 +1,56 @@
+/* Empty. Add your own CSS if you like */
+.list .item.item-accordion {
+  line-height: 30px;
+  padding: 0;
+  transition: 0.1s all linear;
+}
+.list .item.item-accordion.ng-hide {
+  line-height: 0;
+}
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+
+.img_logocap {
+  background: url("../img/capgemini-logo.jpg") no-repeat center;
+  background-size: contain;
+  margin: 10vh auto;
+  height: 10vh;
+}
+
+.img_avatar {
+  background: url("../img/capgemini-pique.jpg") no-repeat center;
+  background-size: contain;
+}
+
+.img_diamond {
+  height: 20px;
+  width: 20px;
+  float: left;
+  margin: 0 10px;
+  background: url('../img/ic_diamond.png') no-repeat center;
+  background-size: contain;
+}
+
+.img_gold {
+  height: 20px;
+  width: 20px;
+  float: left;
+  margin: 0 10px;
+  background: url('../img/ic_gold.png') no-repeat center;
+  background-size: contain;
+}
+
+.img_silver {
+  height: 20px;
+  width: 20px;
+  float: left;
+  margin: 0 10px;
+  background: url('../img/ic_silver.png') no-repeat center;
+  background-size: contain;
+}
+
+.money {
+  line-height: 20px;
+}
