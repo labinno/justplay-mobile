@@ -1,5 +1,107 @@
 <ion-view view-title="{{challenge.name}}">
   <ion-content>
+    <div class="list">
+      <div class="item text-center">
+        <h1><b>{{challenge.name}}</b></h1>
+      </div>
 
+      <div class="item item-borderless stable-bg">
+        <p>{{getLabel('challenges_group')}}: <b>{{challenge.group.name}}</b></p>
+        <p>{{getLabel('challenges_leader')}}: <b>{{challenge.leader.profile.name}}</b></p>
+        <p>{{getLabel('challenges_desc')}}:</p>
+        <p><b>{{challenge.description}}</b></p>
+      </div>
+
+      <div class="item item-borderless">
+        <p>{{getLabel('challenges_prize')}}:</p>
+        <div class="positive money"><div class="img_diamond"></div> {{challenge.prize}}</div>
+      </div>
+
+      <div class="item item-divider"></div>
+
+      <div class="item item-icon-left item-icon-right" ng-click="gotoChallengeMembers()">
+        <i class="icon ion-person-stalker"></i>
+        {{getLabel('challenges_members')}} ({{challenge.memberCount}})
+        <i class="icon ion-chevron-right icon-goto"></i>
+      </div>
+
+      <div class="item item-icon-left item-icon-right" ng-click="gotoChallengeTasks()">
+        <i class="icon ion-navicon-round"></i>
+        {{getLabel('challenges_tasks')}} ({{challenge.dailys.length + challenge.habits.length + challenge.todos.length}})
+        <i class="icon ion-chevron-right icon-goto"></i>
+      </div>
+
+      <div class="item item-divider"></div>
+
+      <div class="item text-center item-royal" ng-click="">
+        {{getLabel('action_leave')}}
+      </div>
+    </div>
   </ion-content>
 </ion-view>
+
+<script id="challenge-tasks.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar class="bar-calm">
+      <div class="buttons">
+        <button class="button button-small button-icon icon ion-android-arrow-back" ng-click="closeChallengeTasks()"></button>
+      </div>
+      <h1 class="title">{{challenge.name}} - {{getLabel('challenges_tasks')}}</h1>
+    </ion-header-bar>
+    <ion-content>
+      <div class="list">
+        <div class="item item-divider item-royal">{{getLabel('task_habits')}}</div>
+        <div class="item item-button-right" ng-repeat="t in challenge.habits">
+          {{t.text}}
+          <button ng-show="t.type === 'habit' && t.up && !t.down" class="button button-balanced">
+            <i class="icon ion-happy"></i>
+          </button>
+          <button ng-show="t.type === 'habit' && t.down && !t.up" class="button button-energized">
+            <i class="icon ion-sad"></i>
+          </button>
+          <div ng-show="t.type === 'habit' && t.down && t.up" class="buttons">
+            <button class="button button-balanced">
+              <i class="icon ion-happy"></i>
+            </button>
+            <button class="button button-energized">
+              <i class="icon ion-sad"></i>
+            </button>
+          </div>
+        </div>
+        <div class="item item-divider item-royal">{{getLabel('task_dailies')}}</div>
+        <div class="item item-button-right" ng-repeat="t in challenge.dailys">
+          {{t.text}}
+          <button ng-show="t.type === 'daily' && !t.completed" class="button button-balanced">
+            <i class="icon ion-checkmark-circled"></i>
+          </button>
+        </div>
+        <div class="item item-divider item-royal">{{getLabel('task_todos')}}</div>
+        <div class="item item-button-right" ng-repeat="t in challenge.todos">
+          {{t.text}}
+          <button ng-show="t.type === 'todo' && !t.completed" class="button button-balanced">
+            <i class="icon ion-checkmark-circled"></i>
+          </button>
+        </div>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="challenge-members.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar class="bar-calm">
+      <div class="buttons">
+        <button class="button button-small button-icon icon ion-android-arrow-back" ng-click="closeChallengeMembers()"></button>
+      </div>
+      <h1 class="title">{{challenge.name}} - {{getLabel('challenges_members')}}</h1>
+    </ion-header-bar>
+    <ion-content>
+      <div class="list">
+        <div class="item item-icon-left" ng-repeat="m in challenge.members">
+          <i class="icon ion-person"></i>
+          {{m.profile.name}}
+        </div>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>

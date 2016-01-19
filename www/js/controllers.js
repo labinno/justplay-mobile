@@ -1,16 +1,24 @@
 angular.module('starter.controllers', ['ionic', 'ngCordova'])
 
-  .controller('LoginCtrl', function($scope, $state, StorageUtil, LabelUtil, ApiUtil, ToastUtil) {
+  .controller('LoginCtrl', function($ionicHistory, $scope, $state, StorageUtil, LabelUtil, ApiUtil, ToastUtil) {
     $scope.login = {};
 
     $scope.$on('$ionicView.enter', function(){
       $scope.login.password = "";
     });
 
+    var gotoApp = function(){
+      $ionicHistory.nextViewOptions({
+        disableBack: true,
+        historyRoot: true
+      });
+      $state.go('tab.tasks');
+    };
+
     $scope.doLogin = function(){
       if($scope.login.username && $scope.login.password){
         ApiUtil.login($scope.login.username, $scope.login.password).then(function(){
-          $state.go('tab.tasks');
+          gotoApp();
         }).catch(function(err){
           ToastUtil.showShort(err);
         });
@@ -22,24 +30,25 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
 
     var user = StorageUtil.getUser();
     if(user && user.uuid && user.token){
-      $state.go('tab.tasks');
+      gotoApp();
     }
   })
 
   .controller('TasksCtrl', function($scope, LabelUtil, ApiUtil, ToastUtil) {
-    $scope.tasks = [{
-      name: LabelUtil.getLabel('task_habits'),
-      items: [],
-      show: true
-    },{
-      name: LabelUtil.getLabel('task_dailies'),
-      items: [],
-      show: true
-    },{
-      name: LabelUtil.getLabel('task_todos'),
-      items: [],
-      show: true
-    }];
+    $scope.tasks = {
+      habits: {
+        items: [],
+        show: true
+      },
+      dailies: {
+        items: [],
+        show: true
+      },
+      todos: {
+        items: [],
+        show: true
+      }
+    };
 
     $scope.toggleTask = function(task) {
       task.show = !task.show;
@@ -51,19 +60,19 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     $scope.sync = function(){
       $scope.synchronizing = true;
       ApiUtil.getTasks().then(function(tasks){
-        $scope.tasks[0].items = [];
-        $scope.tasks[1].items = [];
-        $scope.tasks[2].items = [];
+        $scope.tasks.habits.items = [];
+        $scope.tasks.dailies.items = [];
+        $scope.tasks.todos.items = [];
         for(var i = 0; i < tasks.length; i++){
           switch (tasks[i].type){
             case "habit":
-              $scope.tasks[0].items.push(tasks[i]);
+              $scope.tasks.habits.items.push(tasks[i]);
               break;
             case "daily":
-              $scope.tasks[1].items.push(tasks[i]);
+              $scope.tasks.dailies.items.push(tasks[i]);
               break;
             case "todo":
-              if(!tasks[i].completed) $scope.tasks[2].items.push(tasks[i]);
+              if(!tasks[i].completed) $scope.tasks.todos.items.push(tasks[i]);
               break;
             default:
           }
@@ -110,7 +119,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     };
   })
 
-  .controller('ChallengeDetailCtrl', function($scope, $stateParams, ApiUtil, ToastUtil) {
+  .controller('ChallengeDetailCtrl', function($ionicModal, $scope, $stateParams, ApiUtil, ToastUtil) {
     $scope.challenge = {};
 
     $scope.sync = function(){
@@ -128,9 +137,44 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     $scope.$on('$ionicView.enter', function(){
       $scope.sync();
     });
+
+    $ionicModal.fromTemplateUrl('challenge-tasks.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.tasksModal = modal;
+    });
+
+    $ionicModal.fromTemplateUrl('challenge-members.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.membersModal = modal;
+    });
+
+    $scope.gotoChallengeTasks = function(){
+      $scope.tasksModal.show();
+    };
+
+    $scope.closeChallengeTasks = function(){
+      $scope.tasksModal.hide();
+    };
+
+    $scope.gotoChallengeMembers = function(){
+      $scope.membersModal.show();
+    };
+
+    $scope.closeChallengeMembers = function(){
+      $scope.membersModal.hide();
+    };
+
+    $scope.$on('$destroy', function() {
+      $scope.tasksModal.remove();
+      $scope.membersModal.remove();
+    });
   })
 
-  .controller('ProfileCtrl', function($scope, $state, ApiUtil, ToastUtil, PopupUtil, LabelUtil, StorageUtil) {
+  .controller('ProfileCtrl', function($scope, $state, ApiUtil, ToastUtil) {
     $scope.profile = {};
 
     $scope.sync = function(){
@@ -167,14 +211,43 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
       $scope.sync();
     });
 
-    $scope.logout = function(){
-      PopupUtil.showConfirm(
-        LabelUtil.getLabel('notif_logout'), "", LabelUtil.getLabel('action_logout')
-      ).then(function(ans){
-        if(ans){
-          StorageUtil.clearAppData();
-          $state.go('login');
-        }
-      });
+    $scope.gotoSettings = function(){
+      $state.go('settings');
     };
+  })
+
+  .controller('SettingsCtrl', function($ionicModal, $ionicNavBarDelegate, $state, $scope, ConstUtil, LabelUtil){
+    $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+      viewData.enableBack = true;
+    });
+
+    $scope.langs = [{
+      name: ConstUtil.EnumLanguage.ENGLISH,
+      label: LabelUtil.getLabel('settings_lang_en')
+    },{
+      name: ConstUtil.EnumLanguage.FRENCH,
+      label: LabelUtil.getLabel('settings_lang_fr')
+    },{
+      name: ConstUtil.EnumLanguage.CHINESE,
+      label: LabelUtil.getLabel('settings_lang_cn')
+    }];
+
+    $ionicModal.fromTemplateUrl('settings-lang.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.langModal = modal;
+    });
+
+    $scope.gotoSettingsLang = function(){
+      $scope.langModal.show();
+    };
+
+    $scope.closeSettingsLang = function(){
+      $scope.langModal.hide();
+    };
+
+    $scope.$on('$destroy', function() {
+      $scope.langModal.remove();
+    });
   });

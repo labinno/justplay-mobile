@@ -72,11 +72,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         controller: 'ProfileCtrl'
       }
     }
-  });
+  })
+
+    .state('settings', {
+      url: "/settings",
+      templateUrl: "templates/settings.html",
+      controller: 'SettingsCtrl'
+    });
 
 })
 
-.run(function($ionicPlatform, $state, $rootScope, LabelUtil, StorageUtil) {
+.run(function($ionicPlatform, $state, $rootScope, LabelUtil, StorageUtil, PopupUtil, ConstUtil) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -93,6 +99,32 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   $rootScope.getLabel = LabelUtil.getLabel;
 
+  $rootScope.logout = function(){
+    PopupUtil.showConfirm(
+      LabelUtil.getLabel('notif_logout'), "", LabelUtil.getLabel('action_yes')
+    ).then(function(ans){
+      if(ans){
+        StorageUtil.clearAppData();
+        $state.go('login');
+      }
+    });
+  };
+
+  // default settings
+  $rootScope.settings = {
+    lang: ConstUtil.EnumLanguage.ENGLISH
+  };
+
+  // restore settings
+  var savedSettings = StorageUtil.getSettings();
+  if(savedSettings){
+    if(savedSettings.lang) $rootScope.settings.lang = savedSettings.lang;
+  }
+  $rootScope.$watch('settings', function(v1, v2){
+    StorageUtil.saveSettings(v2);
+  });
+
+  // restore user
   var user = StorageUtil.getUser();
   if(user && user.uuid && user.token){
     $state.go('tab.tasks');

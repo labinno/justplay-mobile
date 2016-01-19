@@ -50,21 +50,45 @@ angular.module('starter.services', ['ionic','ngCordova'])
       if(!appData){
         appData = {};
       }
-      if(appData.hasOwnProperty("user")){
-        return appData.user;
+      if(!appData.hasOwnProperty("user")){
+        appData.user = {};
       }
-      return null;
+      return appData.user;
+    };
+
+    var saveSettings = function(settings){
+      var appData = getAppData();
+      if(!appData){
+        appData = {};
+      }
+      if(!appData.hasOwnProperty("settings")){
+        appData.settings = {};
+      }
+      if(settings) appData.settings = settings;
+      putAppData(appData);
+    };
+
+    var getSettings = function(){
+      var appData = getAppData();
+      if(!appData){
+        appData = {};
+      }
+      if(!appData.hasOwnProperty("settings")){
+        appData.settings = {};
+      }
+      return appData.settings;
     };
 
     return {
       clearAppData:clearAppData,
       saveUser:saveUser,
-      getUser:getUser
+      getUser:getUser,
+      saveSettings: saveSettings,
+      getSettings: getSettings
     };
   })
 
-.factory('LabelUtil', function($http, ConstUtil){
-    var currentLanguage = ConstUtil.EnumLanguage.ENGLISH;
+.factory('LabelUtil', function($rootScope, $http, ConstUtil, StorageUtil){
     var labels_en = {};
     var labels_fr = {};
     var labels_cn = {};
@@ -82,7 +106,7 @@ angular.module('starter.services', ['ionic','ngCordova'])
     });
 
     var getLabel = function (labelName) {
-      switch (currentLanguage){
+      switch ($rootScope.settings.lang){
         case ConstUtil.EnumLanguage.ENGLISH :
           return labelName ? labels_en[labelName] : "";
         case ConstUtil.EnumLanguage.FRENCH :

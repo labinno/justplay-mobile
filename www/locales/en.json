@@ -1,16 +1,26 @@
 {
   "app_name" : "Just Play",
 
+  "settings": "Settings",
+  "settings_lang": "Language",
+  "settings_lang_en": "English",
+  "settings_lang_fr": "Français",
+  "settings_lang_cn": "中文（简体）",
+
   "login_username" : "Username",
   "login_password" : "Password",
 
-  "tasks" : "Tasks",
+  "tasks" : "My tasks",
   "task_habits": "Habits",
   "task_dailies": "Dailies",
   "task_todos": "To-Dos",
 
   "challenges" : "Challenges",
   "challenges_group": "Group",
+  "challenges_leader": "Leader",
+  "challenges_desc": "Description",
+  "challenges_members": "Members",
+  "challenges_tasks": "Tasks",
   "challenges_member_count": "pers.",
   "challenges_prize": "Prize",
   "challenges_joined": "Joined",
@@ -18,12 +28,19 @@
   "profile" : "Profile",
   "profile_level": "Level",
   "profile_class": "Class",
+  "profile_health": "Health",
+  "profile_exp": "Experience",
+  "profile_mana": "Mana",
 
   "action_ok": "OK",
+  "action_yes": "Yes",
   "action_cancel": "Cancel",
+
   "action_signin" : "Sign in",
   "action_logout" : "Log out",
+
   "action_join": "Join",
+  "action_leave": "Leave",
 
   "notif_login_invalid": "Username or password invalid",
   "notif_logout": "Log out from Just Play?",

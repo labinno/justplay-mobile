@@ -1,0 +1,49 @@
+{
+  "app_name" : "Just Play",
+
+  "settings": "Préférence",
+  "settings_lang": "Langue",
+  "settings_lang_en": "English",
+  "settings_lang_fr": "Français",
+  "settings_lang_cn": "中文（简体）",
+
+  "login_username" : "Username",
+  "login_password" : "Password",
+
+  "tasks" : "Mes tâches",
+  "task_habits": "Habitudes",
+  "task_dailies": "Quotidiennes",
+  "task_todos": "To-Dos",
+
+  "challenges" : "Défis",
+  "challenges_group": "Groupe",
+  "challenges_leader": "Initiateur",
+  "challenges_desc": "Description",
+  "challenges_members": "Membres",
+  "challenges_tasks": "Tâches",
+  "challenges_member_count": "pers.",
+  "challenges_prize": "Gratification",
+  "challenges_joined": "Participé",
+
+  "profile" : "Profil",
+  "profile_level": "Niveau",
+  "profile_class": "Classe",
+  "profile_health": "Santé",
+  "profile_exp": "Expérience",
+  "profile_mana": "Mana",
+
+  "action_ok": "OK",
+  "action_yes": "Oui",
+  "action_cancel": "Annuler",
+
+  "action_signin" : "Sign in",
+  "action_logout" : "Se déconnecter",
+
+  "action_join": "Participer",
+  "action_leave": "Quitter",
+
+  "notif_login_invalid": "Username or password invalid",
+  "notif_logout": "Déconnectez-vous de Just Play ?",
+  "notif_sync" : "Synchronisation ...",
+  "notif_not_challenge_member": "Vous n'êtes pas membre du défi"
+}
