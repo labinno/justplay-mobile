@@ -5,12 +5,58 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'pascalprecht.translate'])
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+.run(function($ionicPlatform, $state, $rootScope, $filter, $translate, StorageUtil, PopupUtil, ConstUtil) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.plugins.Keyboard.disableScroll(true);
 
-  //$ionicConfigProvider.tabs.position('bottom');
+    }
+    if (window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
+    }
+  });
 
+  $rootScope.logout = function(){
+    PopupUtil.showConfirm(
+      $filter('translate')('notif_logout'), "", $filter('translate')('action_yes')
+    ).then(function(ans){
+      if(ans){
+        StorageUtil.clearAppData();
+        $translate.use('en');
+        $state.go('login');
+      }
+    });
+  };
+
+  // current settings
+  $rootScope.settings = {
+    lang: ConstUtil.EnumLanguage.ENGLISH
+  };
+
+  // restore settings
+  var savedSettings = StorageUtil.getSettings();
+  if(savedSettings && savedSettings.lang){
+      $rootScope.settings.lang = savedSettings.lang;
+      $translate.use(savedSettings.lang);
+  }
+
+  // restore user
+  var user = StorageUtil.getUser();
+  if(user && user.uuid && user.token){
+    $state.go('tab.tasks');
+  }
+  else {
+    $state.go('login');
+  }
+})
+
+.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider
     .otherwise("/login");
 
@@ -82,54 +128,162 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 })
 
-.run(function($ionicPlatform, $state, $rootScope, LabelUtil, StorageUtil, PopupUtil, ConstUtil) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+.config(function($ionicConfigProvider){
+  //$ionicConfigProvider.tabs.position('bottom');
+})
 
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
+.config(function($translateProvider){
+  var labels_en = {
+    "app_name" : "Just Play",
 
-  $rootScope.getLabel = LabelUtil.getLabel;
+    "settings": "Settings",
+    "settings_lang": "Language",
+    "settings_lang_en": "English",
+    "settings_lang_fr": "Français",
+    "settings_lang_cn": "中文（简体）",
 
-  $rootScope.logout = function(){
-    PopupUtil.showConfirm(
-      LabelUtil.getLabel('notif_logout'), "", LabelUtil.getLabel('action_yes')
-    ).then(function(ans){
-      if(ans){
-        StorageUtil.clearAppData();
-        $state.go('login');
-      }
-    });
+    "login_username" : "Username",
+    "login_password" : "Password",
+
+    "tasks" : "My tasks",
+    "task_habits": "Habits",
+    "task_dailies": "Dailies",
+    "task_todos": "To-Dos",
+
+    "challenges" : "Challenges",
+    "challenges_group": "Group",
+    "challenges_leader": "Leader",
+    "challenges_desc": "Description",
+    "challenges_members": "Members",
+    "challenges_tasks": "Tasks",
+    "challenges_member_count": "pers.",
+    "challenges_prize": "Prize",
+    "challenges_joined": "Joined",
+
+    "profile" : "Profile",
+    "profile_level": "Level",
+    "profile_class": "Class",
+    "profile_health": "Health",
+    "profile_exp": "Experience",
+    "profile_mana": "Mana",
+
+    "action_ok": "OK",
+    "action_yes": "Yes",
+    "action_cancel": "Cancel",
+
+    "action_signin" : "Sign in",
+    "action_logout" : "Log out",
+
+    "action_join": "Join",
+    "action_leave": "Leave",
+
+    "notif_login_invalid": "Username or password invalid",
+    "notif_logout": "Log out from Just Play?",
+    "notif_sync" : "Synchronizing...",
+    "notif_not_challenge_member": "You are not member of the challenge"
+  };
+  var labels_fr = {
+    "app_name" : "Just Play",
+
+    "settings": "Préférences",
+    "settings_lang": "Langue",
+    "settings_lang_en": "English",
+    "settings_lang_fr": "Français",
+    "settings_lang_cn": "中文（简体）",
+
+    "login_username" : "Username",
+    "login_password" : "Password",
+
+    "tasks" : "Mes tâches",
+    "task_habits": "Habitudes",
+    "task_dailies": "Quotidiennes",
+    "task_todos": "To-Dos",
+
+    "challenges" : "Défis",
+    "challenges_group": "Groupe",
+    "challenges_leader": "Initiateur",
+    "challenges_desc": "Description",
+    "challenges_members": "Membres",
+    "challenges_tasks": "Tâches",
+    "challenges_member_count": "pers.",
+    "challenges_prize": "Récompense",
+    "challenges_joined": "Participé",
+
+    "profile" : "Profil",
+    "profile_level": "Niveau",
+    "profile_class": "Classe",
+    "profile_health": "Santé",
+    "profile_exp": "Expérience",
+    "profile_mana": "Mana",
+
+    "action_ok": "OK",
+    "action_yes": "Oui",
+    "action_cancel": "Annuler",
+
+    "action_signin" : "Sign in",
+    "action_logout" : "Se déconnecter",
+
+    "action_join": "Participer",
+    "action_leave": "Quitter",
+
+    "notif_login_invalid": "Username or password invalid",
+    "notif_logout": "Déconnectez-vous de Just Play ?",
+    "notif_sync" : "Synchronisation ...",
+    "notif_not_challenge_member": "Vous n'êtes pas membre du défi"
+  };
+  var labels_cn = {
+    "app_name" : "Just Play",
+
+    "settings": "设置",
+    "settings_lang": "语言",
+    "settings_lang_en": "English",
+    "settings_lang_fr": "Français",
+    "settings_lang_cn": "中文（简体）",
+
+    "login_username" : "Username",
+    "login_password" : "Password",
+
+    "tasks" : "我的任务",
+    "task_habits": "习惯",
+    "task_dailies": "日常",
+    "task_todos": "待办事项",
+
+    "challenges" : "挑战",
+    "challenges_group": "组群",
+    "challenges_leader": "发起人",
+    "challenges_desc": "描述",
+    "challenges_members": "成员",
+    "challenges_tasks": "任务",
+    "challenges_member_count": "人",
+    "challenges_prize": "奖励",
+    "challenges_joined": "已加入",
+
+    "profile" : "我",
+    "profile_level": "等级",
+    "profile_class": "身份",
+    "profile_health": "健康值",
+    "profile_exp": "经验值",
+    "profile_mana": "Mana",
+
+    "action_ok": "好的",
+    "action_yes": "好的",
+    "action_cancel": "取消",
+
+    "action_signin" : "Sign in",
+    "action_logout" : "退出登录",
+
+    "action_join": "加入",
+    "action_leave": "退出",
+
+    "notif_login_invalid": "Username or password invalid",
+    "notif_logout": "确定要退出 Just Play ?",
+    "notif_sync" : "同步中 ...",
+    "notif_not_challenge_member": "你还不是这个挑战的成员"
   };
 
-  // default settings
-  $rootScope.settings = {
-    lang: ConstUtil.EnumLanguage.ENGLISH
-  };
-
-  // restore settings
-  var savedSettings = StorageUtil.getSettings();
-  if(savedSettings){
-    if(savedSettings.lang) $rootScope.settings.lang = savedSettings.lang;
-  }
-  $rootScope.$watch('settings', function(v1, v2){
-    StorageUtil.saveSettings(v2);
-  });
-
-  // restore user
-  var user = StorageUtil.getUser();
-  if(user && user.uuid && user.token){
-    $state.go('tab.tasks');
-  }
-  else {
-    $state.go('login');
-  }
-});
+  $translateProvider.translations('en', labels_en);
+  $translateProvider.translations('fr', labels_fr);
+  $translateProvider.translations('cn', labels_cn);
+  $translateProvider.preferredLanguage('en');
+})
+;

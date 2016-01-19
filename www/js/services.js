@@ -56,18 +56,6 @@ angular.module('starter.services', ['ionic','ngCordova'])
       return appData.user;
     };
 
-    var saveSettings = function(settings){
-      var appData = getAppData();
-      if(!appData){
-        appData = {};
-      }
-      if(!appData.hasOwnProperty("settings")){
-        appData.settings = {};
-      }
-      if(settings) appData.settings = settings;
-      putAppData(appData);
-    };
-
     var getSettings = function(){
       var appData = getAppData();
       if(!appData){
@@ -79,47 +67,24 @@ angular.module('starter.services', ['ionic','ngCordova'])
       return appData.settings;
     };
 
+  var saveSettingsLang = function(lang){
+    var appData = getAppData();
+    if(!appData){
+      appData = {};
+    }
+    if(!appData.hasOwnProperty("settings")){
+      appData.settings = {};
+    }
+    if(lang) appData.settings.lang = lang;
+    putAppData(appData);
+  };
+
     return {
       clearAppData:clearAppData,
       saveUser:saveUser,
       getUser:getUser,
-      saveSettings: saveSettings,
-      getSettings: getSettings
-    };
-  })
-
-.factory('LabelUtil', function($rootScope, $http, ConstUtil, StorageUtil){
-    var labels_en = {};
-    var labels_fr = {};
-    var labels_cn = {};
-
-    $http.get('locales/en.json').then(function (response) {
-      labels_en = response.data;
-    });
-
-    $http.get('locales/fr.json').then(function (response) {
-      labels_fr = response.data;
-    });
-
-    $http.get('locales/cn.json').then(function (response) {
-      labels_cn = response.data;
-    });
-
-    var getLabel = function (labelName) {
-      switch ($rootScope.settings.lang){
-        case ConstUtil.EnumLanguage.ENGLISH :
-          return labelName ? labels_en[labelName] : "";
-        case ConstUtil.EnumLanguage.FRENCH :
-          return labelName ? labels_fr[labelName] : "";
-        case ConstUtil.EnumLanguage.CHINESE :
-          return labelName ? labels_cn[labelName] : "";
-        default :
-          return labelName ? labels_en[labelName] : "";
-      }
-    };
-
-    return {
-      getLabel:getLabel
+      getSettings: getSettings,
+      saveSettingsLang: saveSettingsLang
     };
   })
 
@@ -150,13 +115,13 @@ angular.module('starter.services', ['ionic','ngCordova'])
     };
   })
 
-  .factory('PopupUtil', function($ionicPopup, $q, LabelUtil){
+  .factory('PopupUtil', function($ionicPopup, $q, $filter){
     var showAlert = function(title, body){
       var deferred = $q.defer();
       $ionicPopup.alert({
         title: title,
         template: body,
-        okText: LabelUtil.getLabel("action_ok"),
+        okText: $filter('translate')("action_ok"),
         okType: 'button-royal'
       }).then(function(){
         deferred.resolve();
@@ -171,7 +136,7 @@ angular.module('starter.services', ['ionic','ngCordova'])
       $ionicPopup.confirm({
         title: title,
         template: body,
-        cancelText: LabelUtil.getLabel("action_cancel"),
+        cancelText: $filter('translate')("action_cancel"),
         cancelType: 'button-default',
         okText: actionText,
         okType: 'button-royal'

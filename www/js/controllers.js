@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ionic', 'ngCordova'])
 
-  .controller('LoginCtrl', function($ionicHistory, $scope, $state, StorageUtil, LabelUtil, ApiUtil, ToastUtil) {
+  .controller('LoginCtrl', function($ionicHistory, $scope, $state, StorageUtil, $filter, ApiUtil, ToastUtil) {
     $scope.login = {};
 
     $scope.$on('$ionicView.enter', function(){
@@ -24,7 +24,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
         });
       }
       else{
-        ToastUtil.showShort(LabelUtil.getLabel('notif_login_invalid'));
+        ToastUtil.showShort($filter('translate')('notif_login_invalid'));
       }
     };
 
@@ -34,7 +34,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     }
   })
 
-  .controller('TasksCtrl', function($scope, LabelUtil, ApiUtil, ToastUtil) {
+  .controller('TasksCtrl', function($scope, $filter, ApiUtil, ToastUtil) {
     $scope.tasks = {
       habits: {
         items: [],
@@ -90,7 +90,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
 
   })
 
-  .controller('ChallengesCtrl', function($scope, $state, ApiUtil, ToastUtil, LabelUtil) {
+  .controller('ChallengesCtrl', function($scope, $state, ApiUtil, ToastUtil, $filter) {
     $scope.challenges = [];
 
     $scope.sync = function(){
@@ -114,7 +114,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
         $state.go('tab.challenge-detail', {challengeId: challenge._id});
       }
       else{
-        ToastUtil.showShort(LabelUtil.getLabel('notif_not_challenge_member'));
+        ToastUtil.showShort($filter('translate')('notif_not_challenge_member'));
       }
     };
   })
@@ -216,20 +216,20 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     };
   })
 
-  .controller('SettingsCtrl', function($ionicModal, $ionicNavBarDelegate, $state, $scope, ConstUtil, LabelUtil){
+  .controller('SettingsCtrl', function($ionicModal, $ionicNavBarDelegate, $state, $scope, $translate, ConstUtil, $filter, StorageUtil){
     $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
       viewData.enableBack = true;
     });
 
     $scope.langs = [{
       name: ConstUtil.EnumLanguage.ENGLISH,
-      label: LabelUtil.getLabel('settings_lang_en')
+      label: $filter('translate')('settings_lang_en')
     },{
       name: ConstUtil.EnumLanguage.FRENCH,
-      label: LabelUtil.getLabel('settings_lang_fr')
+      label: $filter('translate')('settings_lang_fr')
     },{
       name: ConstUtil.EnumLanguage.CHINESE,
-      label: LabelUtil.getLabel('settings_lang_cn')
+      label: $filter('translate')('settings_lang_cn')
     }];
 
     $ionicModal.fromTemplateUrl('settings-lang.html', {
@@ -250,4 +250,9 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     $scope.$on('$destroy', function() {
       $scope.langModal.remove();
     });
+
+    $scope.changeLang = function (langKey) {
+      $translate.use(langKey);
+      StorageUtil.saveSettingsLang(langKey);
+    };
   });

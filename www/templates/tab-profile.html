@@ -1,4 +1,4 @@
-<ion-view view-title="{{getLabel('profile')}}">
+<ion-view view-title="{{'profile' | translate}}">
   <ion-nav-buttons side="right">
     <i ng-show="!synchronizing" ng-click="sync()" class="button button-small button-icon icon ion-android-sync"></i>
   </ion-nav-buttons>
@@ -9,8 +9,8 @@
         <div class="item-image img_avatar"></div>
         <h2><b>{{profile.username}}</b></h2>
         <p><b>{{profile.email}}</b></p>
-        <p>{{getLabel('profile_level')}}: <b>{{profile.level}}</b></p>
-        <p>{{getLabel('profile_class')}}: <b>{{profile.class}}</b></p>
+        <p>{{'profile_level' | translate}}: <b>{{profile.level}}</b></p>
+        <p>{{'profile_class' | translate}}: <b>{{profile.class}}</b></p>
       </div>
 
       <div class="item item-borderless row">
@@ -21,21 +21,21 @@
 
       <div class="item">
         <div style="width: 100%; height: 30px; line-height: 30px" class="assertive">
-          <i class="icon ion-heart"></i> <b>{{getLabel('profile_health')}}</b> {{profile.health}} / {{profile.healthMax}}
+          <i class="icon ion-heart"></i> <b>{{'profile_health' | translate}}</b> {{profile.health}} / {{profile.healthMax}}
         </div>
         <div style="width: 100%; height: 30px; border: solid 1px #da5353" class="assertive-border">
           <div ng-style="{'width': profile.healthPercent + '%'}" style="height: 28px" class="assertive-bg"></div>
         </div>
 
         <div style="width: 100%; height: 30px; line-height: 30px; margin-top: 10px" class="energized">
-          <i class="icon ion-android-star"></i> <b>{{getLabel('profile_exp')}}</b> {{profile.exp}} / {{profile.expNextLevel}}
+          <i class="icon ion-android-star"></i> <b>{{'profile_exp' | translate}}</b> {{profile.exp}} / {{profile.expNextLevel}}
         </div>
         <div style="width: 100%; height: 30px; border: solid 1px #ffcc35" class="energized-border">
           <div ng-style="{'width': profile.expPercent + '%'}" style="height: 28px" class="energized-bg"></div>
         </div>
 
         <div style="width: 100%; height: 30px; line-height: 30px; margin-top: 10px" class="positive">
-          <i class="icon ion-fireball"></i> <b>{{getLabel('profile_mana')}}</b> {{profile.mana}} / {{profile.manaMax}}
+          <i class="icon ion-fireball"></i> <b>{{'profile_mana' | translate}}</b> {{profile.mana}} / {{profile.manaMax}}
         </div>
         <div style="width: 100%; height: 30px; border: solid 1px #4781e7" class="positive-border">
           <div ng-style="{'width': profile.manaPercent + '%'}" style="height: 28px" class="positive-bg"></div>
@@ -46,14 +46,14 @@
 
       <div class="item item-icon-left item-icon-right" ng-click="gotoSettings()">
         <i class="icon ion-gear-a"></i>
-        {{getLabel('settings')}}
+        {{'settings' | translate}}
         <i class="icon ion-chevron-right icon-goto"></i>
       </div>
 
       <div class="item item-divider"></div>
 
       <div class="item text-center item-royal" ng-click="logout()">
-        {{getLabel('action_logout')}}
+        {{'action_logout' | translate}}
       </div>
     </div>
   </ion-content>

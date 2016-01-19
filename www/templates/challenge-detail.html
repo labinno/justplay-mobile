@@ -6,14 +6,14 @@
       </div>
 
       <div class="item item-borderless stable-bg">
-        <p>{{getLabel('challenges_group')}}: <b>{{challenge.group.name}}</b></p>
-        <p>{{getLabel('challenges_leader')}}: <b>{{challenge.leader.profile.name}}</b></p>
-        <p>{{getLabel('challenges_desc')}}:</p>
+        <p>{{'challenges_group' | translate}}: <b>{{challenge.group.name}}</b></p>
+        <p>{{'challenges_leader' | translate}}: <b>{{challenge.leader.profile.name}}</b></p>
+        <p>{{'challenges_desc' | translate}}:</p>
         <p><b>{{challenge.description}}</b></p>
       </div>
 
       <div class="item item-borderless">
-        <p>{{getLabel('challenges_prize')}}:</p>
+        <p>{{'challenges_prize' | translate}}:</p>
         <div class="positive money"><div class="img_diamond"></div> {{challenge.prize}}</div>
       </div>
 
@@ -21,20 +21,20 @@
 
       <div class="item item-icon-left item-icon-right" ng-click="gotoChallengeMembers()">
         <i class="icon ion-person-stalker"></i>
-        {{getLabel('challenges_members')}} ({{challenge.memberCount}})
+        {{'challenges_members' | translate}} ({{challenge.memberCount}})
         <i class="icon ion-chevron-right icon-goto"></i>
       </div>
 
       <div class="item item-icon-left item-icon-right" ng-click="gotoChallengeTasks()">
         <i class="icon ion-navicon-round"></i>
-        {{getLabel('challenges_tasks')}} ({{challenge.dailys.length + challenge.habits.length + challenge.todos.length}})
+        {{'challenges_tasks' | translate}} ({{challenge.dailys.length + challenge.habits.length + challenge.todos.length}})
         <i class="icon ion-chevron-right icon-goto"></i>
       </div>
 
       <div class="item item-divider"></div>
 
       <div class="item text-center item-royal" ng-click="">
-        {{getLabel('action_leave')}}
+        {{'action_leave' | translate}}
       </div>
     </div>
   </ion-content>
@@ -46,11 +46,11 @@
       <div class="buttons">
         <button class="button button-small button-icon icon ion-android-arrow-back" ng-click="closeChallengeTasks()"></button>
       </div>
-      <h1 class="title">{{challenge.name}} - {{getLabel('challenges_tasks')}}</h1>
+      <h1 class="title">{{challenge.name}} - {{'challenges_tasks' | translate}}</h1>
     </ion-header-bar>
     <ion-content>
       <div class="list">
-        <div class="item item-divider item-royal">{{getLabel('task_habits')}}</div>
+        <div class="item item-divider item-royal">{{'task_habits' | translate}}</div>
         <div class="item item-button-right" ng-repeat="t in challenge.habits">
           {{t.text}}
           <button ng-show="t.type === 'habit' && t.up && !t.down" class="button button-balanced">
@@ -68,14 +68,14 @@
             </button>
           </div>
         </div>
-        <div class="item item-divider item-royal">{{getLabel('task_dailies')}}</div>
+        <div class="item item-divider item-royal">{{'task_dailies' | translate}}</div>
         <div class="item item-button-right" ng-repeat="t in challenge.dailys">
           {{t.text}}
           <button ng-show="t.type === 'daily' && !t.completed" class="button button-balanced">
             <i class="icon ion-checkmark-circled"></i>
           </button>
         </div>
-        <div class="item item-divider item-royal">{{getLabel('task_todos')}}</div>
+        <div class="item item-divider item-royal">{{'task_todos' | translate}}</div>
         <div class="item item-button-right" ng-repeat="t in challenge.todos">
           {{t.text}}
           <button ng-show="t.type === 'todo' && !t.completed" class="button button-balanced">
@@ -93,7 +93,7 @@
       <div class="buttons">
         <button class="button button-small button-icon icon ion-android-arrow-back" ng-click="closeChallengeMembers()"></button>
       </div>
-      <h1 class="title">{{challenge.name}} - {{getLabel('challenges_members')}}</h1>
+      <h1 class="title">{{challenge.name}} - {{'challenges_members' | translate}}</h1>
     </ion-header-bar>
     <ion-content>
       <div class="list">

@@ -13,6 +13,7 @@
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
+    <script src="lib/angular-translate/angular-translate.min.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -41,15 +42,15 @@
     <script id="templates/tabs.html" type="text/ng-template">
       <ion-tabs class="tabs-icon-top tabs-calm">
 
-        <ion-tab title="{{getLabel('tasks')}}" icon="ion-navicon-round"  ui-sref="tab.tasks">
+        <ion-tab title="{{'tasks' | translate}}" icon="ion-navicon-round"  ui-sref="tab.tasks">
           <ion-nav-view name="tab-tasks"></ion-nav-view>
         </ion-tab>
 
-        <ion-tab title="{{getLabel('challenges')}}" icon="ion-trophy" ui-sref="tab.challenges">
+        <ion-tab title="{{'challenges' | translate}}" icon="ion-trophy" ui-sref="tab.challenges">
           <ion-nav-view name="tab-challenges"></ion-nav-view>
         </ion-tab>
 
-        <ion-tab title="{{getLabel('profile')}}" icon="ion-person" ui-sref="tab.profile">
+        <ion-tab title="{{'profile' | translate}}" icon="ion-person" ui-sref="tab.profile">
           <ion-nav-view name="tab-profile"></ion-nav-view>
         </ion-tab>
 

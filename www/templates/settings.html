@@ -1,9 +1,9 @@
-<ion-view view-title="{{getLabel('settings')}}">
+<ion-view view-title="{{'settings' | translate}}">
   <ion-content>
     <ion-list>
       <ion-item class="item-icon-left item-icon-right" ng-click="gotoSettingsLang()">
         <i class="icon ion-earth"></i>
-          {{getLabel('settings_lang')}}
+          {{'settings_lang' | translate}}
           <i class="icon ion-chevron-right icon-goto"></i>
       </ion-item>
     </ion-list>
@@ -17,11 +17,11 @@
       <div class="buttons">
         <button class="button button-small button-icon icon ion-android-arrow-back" ng-click="closeSettingsLang()"></button>
       </div>
-      <h1 class="title">{{getLabel('settings')}} - {{getLabel('settings_lang')}}</h1>
+      <h1 class="title">{{'settings' | translate}} - {{'settings_lang' | translate}}</h1>
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-radio ng-repeat="lang in langs" ng-model="settings.lang" ng-value="lang.name">{{lang.label}}</ion-radio>
+        <ion-radio ng-repeat="lang in langs" ng-click="changeLang(lang.name)" ng-model="settings.lang" ng-value="lang.name">{{lang.label}}</ion-radio>
       </ion-list>
     </ion-content>
   </ion-modal-view>

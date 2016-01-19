@@ -1,4 +1,4 @@
-<ion-view view-title="{{getLabel('challenges')}}">
+<ion-view view-title="{{'challenges' | translate}}">
   <ion-nav-buttons side="right">
     <i ng-show="!synchronizing" ng-click="sync()" class="button button-small button-icon icon ion-android-sync"></i>
   </ion-nav-buttons>
@@ -7,12 +7,12 @@
       <ion-item ng-repeat="challenge in challenges" class="item-button-right" ng-click="gotoChallenge(challenge)">
         <h2><b>{{challenge.name}}</b></h2>
         <p><b>{{challenge.description}}</b></p>
-        <p>{{getLabel('challenges_group')}}: <b>{{challenge.group.name}}</b></p>
+        <p>{{'challenges_group' | translate}}: <b>{{challenge.group.name}}</b></p>
         <div class="row row-no-padding">
           <div class="col-33"><i class="icon ion-person-stalker"></i>&nbsp;&nbsp;{{challenge.memberCount}}</div>
           <div class="col-33 positive money"><div class="img_diamond"></div> {{challenge.prize}}</div>
         </div>
-        <button ng-show="!challenge._isMember" class="button button-royal">{{getLabel('action_join')}}</button>
+        <button ng-show="!challenge._isMember" class="button button-royal">{{'action_join' | translate}}</button>
         <button ng-show="challenge._isMember" class="button button-clear button-light button-icon icon ion-chevron-right"></button>
       </ion-item>
     </ion-list>

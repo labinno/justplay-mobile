@@ -1,4 +1,4 @@
-<ion-view view-title="{{getLabel('tasks')}}">
+<ion-view view-title="{{'tasks' | translate}}">
   <ion-nav-buttons side="right">
     <i ng-show="!synchronizing" ng-click="sync()" class="button button-small button-icon icon ion-android-sync"></i>
   </ion-nav-buttons>
@@ -8,7 +8,7 @@
            ng-class="{active: isTaskShown(tasks.habits)}">
         <i ng-click="toggleTask(tasks.habits)"
            class="icon" ng-class="isTaskShown(tasks.habits) ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
-        {{getLabel('task_habits')}}
+        {{'task_habits' | translate}}
         <i class="icon ion-android-add"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.habits.items"
@@ -34,7 +34,7 @@
            ng-class="{active: isTaskShown(tasks.dailies)}">
         <i ng-click="toggleTask(tasks.dailies)"
            class="icon" ng-class="isTaskShown(tasks.dailies) ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
-        {{getLabel('task_dailies')}}
+        {{'task_dailies' | translate}}
         <i class="icon ion-android-add"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.dailies.items"
@@ -49,7 +49,7 @@
            ng-class="{active: isTaskShown(tasks.todos)}">
         <i ng-click="toggleTask(tasks.todos)"
            class="icon" ng-class="isTaskShown(tasks.todos) ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
-        {{getLabel('task_todos')}}
+        {{'task_todos' | translate}}
         <i class="icon ion-android-add"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.todos.items"
