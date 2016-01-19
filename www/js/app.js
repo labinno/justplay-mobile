@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'pascalprecht.translate'])
 
-.run(function($ionicPlatform, $state, $rootScope, $filter, $translate, StorageUtil, PopupUtil, ConstUtil) {
+.run(function($ionicPlatform, $state, $rootScope, $filter, $translate, StorageUtil, PopupUtil, ConstUtil, ApiUtil, ToastUtil) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -49,7 +49,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   // restore user
   var user = StorageUtil.getUser();
   if(user && user.uuid && user.token){
-    $state.go('tab.tasks');
+    ApiUtil.checkStatus().then(function(){
+      $state.go('tab.tasks');
+    }).catch(function(err){
+      if(err === "down") ToastUtil.showShort($filter('translate')('notif_server_down'));
+      else ToastUtil.showShort(err);
+      $state.go('login');
+    });
   }
   else {
     $state.go('login');
@@ -177,6 +183,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "action_join": "Join",
     "action_leave": "Leave",
 
+    "notif_server_down": "The server is not responding",
     "notif_login_invalid": "Username or password invalid",
     "notif_logout": "Log out from Just Play?",
     "notif_sync" : "Synchronizing...",
@@ -226,6 +233,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "action_join": "Participer",
     "action_leave": "Quitter",
 
+    "notif_server_down": "Le serveur ne répond pas",
     "notif_login_invalid": "Username or password invalid",
     "notif_logout": "Déconnectez-vous de Just Play ?",
     "notif_sync" : "Synchronisation ...",
@@ -275,6 +283,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "action_join": "加入",
     "action_leave": "退出",
 
+    "notif_server_down": "服务器无响应",
     "notif_login_invalid": "Username or password invalid",
     "notif_logout": "确定要退出 Just Play ?",
     "notif_sync" : "同步中 ...",
