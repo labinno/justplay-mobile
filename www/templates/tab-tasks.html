@@ -14,17 +14,21 @@
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.habits.items"
            ng-show="isTaskShown(tasks.habits)">
         {{item.text}}
-        <button ng-show="item.type === 'habit' && item.up && !item.down" class="button button-balanced">
+        <button ng-show="item.type === 'habit' && item.up && !item.down" class="button button-balanced"
+                ng-click="scoreTask(item, 'up')">
           <i class="icon ion-happy"></i>
         </button>
-        <button ng-show="item.type === 'habit' && item.down && !item.up" class="button button-energized">
+        <button ng-show="item.type === 'habit' && item.down && !item.up" class="button button-energized"
+                ng-click="scoreTask(item, 'down')">
           <i class="icon ion-sad"></i>
         </button>
         <div ng-show="item.type === 'habit' && item.down && item.up" class="buttons">
-          <button class="button button-balanced">
+          <button class="button button-balanced"
+                  ng-click="scoreTask(item, 'up')">
             <i class="icon ion-happy"></i>
           </button>
-          <button class="button button-energized">
+          <button class="button button-energized"
+                  ng-click="scoreTask(item, 'down')">
             <i class="icon ion-sad"></i>
           </button>
         </div>
@@ -40,7 +44,8 @@
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.dailies.items"
            ng-show="isTaskShown(tasks.dailies)">
         {{item.text}}
-        <button ng-show="item.type === 'daily' && !item.completed" class="button button-balanced">
+        <button ng-show="item.type === 'daily' && !item.completed" class="button button-balanced"
+                ng-click="scoreTask(item, 'up')">
           <i class="icon ion-checkmark-circled"></i>
         </button>
       </div>
@@ -55,7 +60,8 @@
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.todos.items"
            ng-show="isTaskShown(tasks.todos)">
         {{item.text}}
-        <button ng-show="item.type === 'todo' && !item.completed" class="button button-balanced">
+        <button ng-show="item.type === 'todo' && !item.completed" class="button button-balanced"
+                ng-click="scoreTask(item, 'up')">
           <i class="icon ion-checkmark-circled"></i>
         </button>
       </div>

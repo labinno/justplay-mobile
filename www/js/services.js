@@ -275,13 +275,111 @@ angular.module('starter.services', ['ionic','ngCordova'])
     return deferred.promise;
   };
 
+  var joinChallenge = function(id){
+    var deferred = $q.defer();
+    $http({
+      method: 'POST',
+      url: ApiRoot + "/challenges/" + id + "/join",
+      headers: {
+        'x-api-user': auth.uuid,
+        'x-api-key': auth.token
+      }
+    }).then(function(res){
+      var data = res.data;
+      deferred.resolve(data);
+    }, function(err){
+      deferred.reject(err);
+    });
+    return deferred.promise;
+  };
+
+  var leaveChallenge = function(id){
+    var deferred = $q.defer();
+    $http({
+      method: 'POST',
+      url: ApiRoot + "/challenges/" + id + "/leave",
+      headers: {
+        'x-api-user': auth.uuid,
+        'x-api-key': auth.token
+      }
+    }).then(function(res){
+      var data = res.data;
+      deferred.resolve(data);
+    }, function(err){
+      deferred.reject(err);
+    });
+    return deferred.promise;
+  };
+
+  var createTask = function(task){
+    var deferred = $q.defer();
+    $http({
+      method: 'POST',
+      url: ApiRoot + "/user/tasks",
+      headers: {
+        'Content-Type': "application/json",
+        'x-api-user': auth.uuid,
+        'x-api-key': auth.token
+      },
+      data: task
+    }).then(function(res){
+      var data = res.data;
+      deferred.resolve(data);
+    }, function(err){
+      deferred.reject(err);
+    });
+    return deferred.promise;
+  };
+
+  var scoreTask = function(id, dir){
+    var deferred = $q.defer();
+    $http({
+      method: 'POST',
+      url: ApiRoot + "/user/tasks/" + id + "/" + dir,
+      headers: {
+        'Content-Type': "application/json",
+        'x-api-user': auth.uuid,
+        'x-api-key': auth.token
+      }
+    }).then(function(res){
+      var data = res.data;
+      deferred.resolve(data);
+    }, function(err){
+      deferred.reject(err);
+    });
+    return deferred.promise;
+  };
+
+  var deleteTask = function(id){
+    var deferred = $q.defer();
+    $http({
+      method: 'DELETE',
+      url: ApiRoot + "/user/tasks/" + id,
+      headers: {
+        'x-api-user': auth.uuid,
+        'x-api-key': auth.token
+      }
+    }).then(function(res){
+      var data = res.data;
+      deferred.resolve(data);
+    }, function(err){
+      deferred.reject(err);
+    });
+    return deferred.promise;
+  };
+
   return {
     checkStatus: checkStatus,
     login: login,
     getTasks: getTasks,
     getUser: getUser,
     getChallenges: getChallenges,
-    getChallenge: getChallenge
+    getChallenge: getChallenge,
+    joinChallenge: joinChallenge,
+    leaveChallenge: leaveChallenge,
+    createTask: createTask,
+    scoreTask: scoreTask,
+    deleteTask: deleteTask
   };
 });
 

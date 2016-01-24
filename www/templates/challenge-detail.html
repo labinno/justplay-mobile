@@ -33,7 +33,7 @@
 
       <div class="item item-divider"></div>
 
-      <div class="item text-center item-royal" ng-click="">
+      <div class="item text-center item-royal" ng-click="leaveChallenge()">
         {{'action_leave' | translate}}
       </div>
     </div>
@@ -53,17 +53,21 @@
         <div class="item item-divider item-royal">{{'task_habits' | translate}}</div>
         <div class="item item-button-right" ng-repeat="t in challenge.habits">
           {{t.text}}
-          <button ng-show="t.type === 'habit' && t.up && !t.down" class="button button-balanced">
+          <button ng-show="t.type === 'habit' && t.up && !t.down" class="button button-balanced"
+                  ng-click="scoreTask(t, 'up')">
             <i class="icon ion-happy"></i>
           </button>
-          <button ng-show="t.type === 'habit' && t.down && !t.up" class="button button-energized">
+          <button ng-show="t.type === 'habit' && t.down && !t.up" class="button button-energized"
+                  ng-click="scoreTask(t, 'down')">
             <i class="icon ion-sad"></i>
           </button>
           <div ng-show="t.type === 'habit' && t.down && t.up" class="buttons">
-            <button class="button button-balanced">
+            <button class="button button-balanced"
+                    ng-click="scoreTask(t, 'up')">
               <i class="icon ion-happy"></i>
             </button>
-            <button class="button button-energized">
+            <button class="button button-energized"
+                    ng-click="scoreTask(t, 'down')">
               <i class="icon ion-sad"></i>
             </button>
           </div>
@@ -71,14 +75,16 @@
         <div class="item item-divider item-royal">{{'task_dailies' | translate}}</div>
         <div class="item item-button-right" ng-repeat="t in challenge.dailys">
           {{t.text}}
-          <button ng-show="t.type === 'daily' && !t.completed" class="button button-balanced">
+          <button ng-show="t.type === 'daily' && !t.completed" class="button button-balanced"
+                  ng-click="scoreTask(t, 'up')">
             <i class="icon ion-checkmark-circled"></i>
           </button>
         </div>
         <div class="item item-divider item-royal">{{'task_todos' | translate}}</div>
         <div class="item item-button-right" ng-repeat="t in challenge.todos">
           {{t.text}}
-          <button ng-show="t.type === 'todo' && !t.completed" class="button button-balanced">
+          <button ng-show="t.type === 'todo' && !t.completed" class="button button-balanced"
+                  ng-click="scoreTask(t, 'up')">
             <i class="icon ion-checkmark-circled"></i>
           </button>
         </div>

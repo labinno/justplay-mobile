@@ -88,6 +88,17 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
       $scope.sync();
     });
 
+    $scope.scoreTask = function(task, dir){
+      ApiUtil.scoreTask(task.id, dir).then(function(){
+        if(dir === "up"){
+          ToastUtil.showShort($filter('translate')('notif_task_up'));
+        }
+        else if(dir === "down"){
+          ToastUtil.showShort($filter('translate')('notif_task_down'));
+        }
+        $scope.sync();
+      });
+    };
   })
 
   .controller('ChallengesCtrl', function($scope, $state, ApiUtil, ToastUtil, $filter) {
@@ -117,9 +128,19 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
         ToastUtil.showShort($filter('translate')('notif_not_challenge_member'));
       }
     };
+
+    $scope.joinChallenge = function(challenge){
+      var id = challenge._id;
+      ApiUtil.joinChallenge(id).then(function(){
+        ToastUtil.showShort($filter('translate')('notif_joined'));
+        $scope.sync();
+      }).catch(function(err){
+        ToastUtil.showShort(err);
+      });
+    };
   })
 
-  .controller('ChallengeDetailCtrl', function($ionicModal, $scope, $stateParams, ApiUtil, ToastUtil) {
+  .controller('ChallengeDetailCtrl', function($ionicModal, $scope, $state, $stateParams, $filter, ApiUtil, ToastUtil, PopupUtil) {
     $scope.challenge = {};
 
     $scope.sync = function(){
@@ -172,6 +193,46 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
       $scope.tasksModal.remove();
       $scope.membersModal.remove();
     });
+
+    $scope.leaveChallenge = function(){
+      PopupUtil.showConfirm(
+        $filter('translate')('notif_leave'), "",
+        $filter('translate')('action_yes')
+      ).then(function(ans){
+        if(ans){
+          var id = $scope.challenge._id;
+          ApiUtil.leaveChallenge(id).then(function(){
+            for(var i = 0; i < $scope.challenge.habits.length; i++){
+              ApiUtil.deleteTask($scope.challenge.habits[i].id);
+            }
+            for(var j = 0; j < $scope.challenge.dailys.length; j++){
+              ApiUtil.deleteTask($scope.challenge.dailys[j].id);
+            }
+            for(var k = 0; k < $scope.challenge.todos.length; k++){
+              ApiUtil.deleteTask($scope.challenge.todos[k].id);
+            }
+            for(var l = 0; l < $scope.challenge.rewards.length; l++){
+              ApiUtil.deleteTask($scope.challenge.rewards[l].id);
+            }
+            $state.go('tab.challenges');
+          }).catch(function(err){
+            ToastUtil.showShort(err);
+          });
+        }
+      });
+    };
+
+    $scope.scoreTask = function(task, dir){
+      ApiUtil.scoreTask(task.id, dir).then(function(){
+        if(dir === "up"){
+          ToastUtil.showShort($filter('translate')('notif_task_up'));
+        }
+        else if(dir === "down"){
+          ToastUtil.showShort($filter('translate')('notif_task_down'));
+        }
+        $scope.sync();
+      });
+    };
   })
 
   .controller('ProfileCtrl', function($scope, $state, ApiUtil, ToastUtil) {

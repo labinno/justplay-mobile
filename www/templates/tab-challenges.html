@@ -12,7 +12,7 @@
           <div class="col-33"><i class="icon ion-person-stalker"></i>&nbsp;&nbsp;{{challenge.memberCount}}</div>
           <div class="col-33 positive money"><div class="img_diamond"></div> {{challenge.prize}}</div>
         </div>
-        <button ng-show="!challenge._isMember" class="button button-royal">{{'action_join' | translate}}</button>
+        <button ng-show="!challenge._isMember" class="button button-royal" ng-click="joinChallenge(challenge)">{{'action_join' | translate}}</button>
         <button ng-show="challenge._isMember" class="button button-clear button-light button-icon icon ion-chevron-right"></button>
       </ion-item>
     </ion-list>

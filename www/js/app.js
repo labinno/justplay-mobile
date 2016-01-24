@@ -187,7 +187,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "notif_login_invalid": "Username or password invalid",
     "notif_logout": "Log out from Just Play?",
     "notif_sync" : "Synchronizing...",
-    "notif_not_challenge_member": "You are not member of the challenge"
+    "notif_not_challenge_member": "You are not member of the challenge",
+    "notif_joined": "Challenge joined",
+    "notif_task_up": "Bravo!",
+    "notif_task_down": "Never again!",
+    "notif_leave": "Are you sure to leave this challenge?"
   };
   var labels_fr = {
     "app_name" : "Just Play",
@@ -237,7 +241,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "notif_login_invalid": "Username or password invalid",
     "notif_logout": "Déconnectez-vous de Just Play ?",
     "notif_sync" : "Synchronisation ...",
-    "notif_not_challenge_member": "Vous n'êtes pas membre du défi"
+    "notif_not_challenge_member": "Vous n'êtes pas membre du défi",
+    "notif_joined": "Participé au défi",
+    "notif_task_up": "Bravo !",
+    "notif_task_down": "Ne plus jamais !",
+    "notif_leave": "Êtes-vous sûr de quitter le défi ?"
   };
   var labels_cn = {
     "app_name" : "Just Play",
@@ -285,9 +293,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "notif_server_down": "服务器无响应",
     "notif_login_invalid": "Username or password invalid",
-    "notif_logout": "确定要退出 Just Play ?",
+    "notif_logout": "确定要退出 Just Play？",
     "notif_sync" : "同步中 ...",
-    "notif_not_challenge_member": "你还不是这个挑战的成员"
+    "notif_not_challenge_member": "你还不是这个挑战的成员",
+    "notif_joined": "成功加入挑战",
+    "notif_task_up": "干得好！",
+    "notif_task_down": "下不为例！",
+    "notif_leave": "确定要退出挑战？"
   };
 
   $translateProvider.translations('en', labels_en);
