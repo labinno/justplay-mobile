@@ -153,8 +153,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "tasks" : "My tasks",
     "task_habits": "Habits",
+    "task_habits_create": "Create a habit",
     "task_dailies": "Dailies",
+    "task_dailies_create": "Create a daily",
     "task_todos": "To-Dos",
+    "task_todos_create": "Create a to-do",
+    "task_new_title": "Title",
+    "task_new_notes": "Notes",
+    "task_new_up": "Positive direction",
+    "task_new_down": "Negative direction",
 
     "challenges" : "Challenges",
     "challenges_group": "Group",
@@ -176,6 +183,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "action_ok": "OK",
     "action_yes": "Yes",
     "action_cancel": "Cancel",
+    "action_done": "Done",
 
     "action_signin" : "Sign in",
     "action_logout" : "Log out",
@@ -191,6 +199,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "notif_joined": "Challenge joined",
     "notif_task_up": "Bravo!",
     "notif_task_down": "Never again!",
+    "notif_task_created": "Task created",
+    "notif_task_new_title_invalid": "Title must not be empty",
+    "notif_task_new_direction_invalid": "At least one direction should be selected",
     "notif_leave": "Are you sure to leave this challenge?"
   };
   var labels_fr = {
@@ -207,8 +218,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "tasks" : "Mes tâches",
     "task_habits": "Habitudes",
+    "task_habits_create": "Créer une habitude",
     "task_dailies": "Quotidiennes",
+    "task_dailies_create": "Créer une quotidienne",
     "task_todos": "To-Dos",
+    "task_todos_create": "Créer une to-do",
+    "task_new_title": "Titre",
+    "task_new_notes": "Notes",
+    "task_new_up": "Direction positive",
+    "task_new_down": "Direction negative",
 
     "challenges" : "Défis",
     "challenges_group": "Groupe",
@@ -230,6 +248,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "action_ok": "OK",
     "action_yes": "Oui",
     "action_cancel": "Annuler",
+    "action_done": "Fait",
 
     "action_signin" : "Sign in",
     "action_logout" : "Se déconnecter",
@@ -245,6 +264,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "notif_joined": "Participé au défi",
     "notif_task_up": "Bravo !",
     "notif_task_down": "Ne plus jamais !",
+    "notif_task_created": "Tâche créée",
+    "notif_task_new_title_invalid": "Titre ne doit pas être vide",
+    "notif_task_new_direction_invalid": "Au moins une direction doit être sélectionnée",
     "notif_leave": "Êtes-vous sûr de quitter le défi ?"
   };
   var labels_cn = {
@@ -261,8 +283,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "tasks" : "我的任务",
     "task_habits": "习惯",
+    "task_habits_create": "新建习惯",
     "task_dailies": "日常",
+    "task_dailies_create": "新建日常",
     "task_todos": "待办事项",
+    "task_todos_create": "新建待办事项",
+    "task_new_title": "标题",
+    "task_new_notes": "说明",
+    "task_new_up": "积极方向",
+    "task_new_down": "消极方向",
 
     "challenges" : "挑战",
     "challenges_group": "组群",
@@ -284,6 +313,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "action_ok": "好的",
     "action_yes": "好的",
     "action_cancel": "取消",
+    "action_done": "完成",
 
     "action_signin" : "Sign in",
     "action_logout" : "退出登录",
@@ -299,6 +329,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "notif_joined": "成功加入挑战",
     "notif_task_up": "干得好！",
     "notif_task_down": "下不为例！",
+    "notif_task_created": "任务创建成功",
+    "notif_task_new_title_invalid": "标题不能为空",
+    "notif_task_new_direction_invalid": "至少应选择一个方向",
     "notif_leave": "确定要退出挑战？"
   };
 

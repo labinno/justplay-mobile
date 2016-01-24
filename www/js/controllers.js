@@ -34,7 +34,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     }
   })
 
-  .controller('TasksCtrl', function($scope, $filter, ApiUtil, ToastUtil) {
+  .controller('TasksCtrl', function($ionicModal, $scope, $filter, ApiUtil, ToastUtil) {
     $scope.tasks = {
       habits: {
         items: [],
@@ -72,7 +72,10 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
               $scope.tasks.dailies.items.push(tasks[i]);
               break;
             case "todo":
-              if(!tasks[i].completed) $scope.tasks.todos.items.push(tasks[i]);
+              if(!tasks[i].completed) {
+                //console.log(tasks[i]);
+                $scope.tasks.todos.items.push(tasks[i]);
+              }
               break;
             default:
           }
@@ -99,6 +102,116 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
         $scope.sync();
       });
     };
+
+    $scope.newHabit = {};
+    $scope.createNewHabit = function(){
+      $scope.newHabit.priority = 1;
+      $scope.newHabit.dateCreated = Date.now;
+      $scope.newHabit.tags = {};
+      $scope.newHabit.value = 0;
+      $scope.newHabit.attribute = "str";
+      $scope.newHabit.type = "habit";
+
+      if(!$scope.newHabit.up) $scope.newHabit.up = false;
+      if(!$scope.newHabit.down) $scope.newHabit.down = false;
+
+      if(!$scope.newHabit.text || $scope.newHabit.text.trim() === ""){
+        ToastUtil.showLong($filter('translate')('notif_task_new_title_invalid'));
+      }
+      else if(!$scope.newHabit.up && !$scope.newHabit.down){
+        ToastUtil.showLong($filter('translate')('notif_task_new_direction_invalid'));
+      }
+      else {
+        ApiUtil.createTask($scope.newHabit).then(function(){
+          ToastUtil.showShort($filter('translate')('notif_task_created'));
+          $scope.closeNewHabit();
+          $scope.sync();
+        });
+      }
+    };
+    $scope.newDaily = {};
+    $scope.createNewDaily = function(){
+      $scope.closeNewDaily();
+      $scope.sync();
+    };
+    $scope.newTodo = {};
+    $scope.createNewTodo = function(){
+      $scope.newTodo.priority = 1;
+      $scope.newTodo.dateCreated = Date.now;
+      $scope.newTodo.tags = {};
+      $scope.newTodo.value = 0;
+      $scope.newTodo.attribute = "str";
+      $scope.newTodo.type = "todo";
+      $scope.newTodo.completed = false;
+
+      if(!$scope.newTodo.text || $scope.newTodo.text.trim() === ""){
+        ToastUtil.showLong($filter('translate')('notif_task_new_title_invalid'));
+      }
+      else {
+        ApiUtil.createTask($scope.newTodo).then(function(){
+          ToastUtil.showShort($filter('translate')('notif_task_created'));
+          $scope.closeNewTodo();
+          $scope.sync();
+        });
+      }
+    };
+
+    $ionicModal.fromTemplateUrl('tasks-newHabit.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.newHabitModal = modal;
+    });
+
+    $scope.gotoNewHabit = function(){
+      $scope.newHabit = {};
+      $scope.newHabitModal.show();
+    };
+
+    $scope.closeNewHabit = function(){
+      $scope.newHabitModal.hide();
+      $scope.newHabit = {};
+    };
+
+    $ionicModal.fromTemplateUrl('tasks-newDaily.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.newDailyModal = modal;
+    });
+
+    $scope.gotoNewDaily = function(){
+      $scope.newDaily = {};
+      $scope.newDailyModal.show();
+    };
+
+    $scope.closeNewDaily = function(){
+      $scope.newDailyModal.hide();
+      $scope.newDaily = {};
+    };
+
+    $ionicModal.fromTemplateUrl('tasks-newTodo.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.newTodoModal = modal;
+    });
+
+    $scope.gotoNewTodo = function(){
+      $scope.newTodo = {};
+      $scope.newTodoModal.show();
+    };
+
+    $scope.closeNewTodo = function(){
+      $scope.newTodoModal.hide();
+      $scope.newTodo = {};
+    };
+
+    $scope.$on('$destroy', function() {
+      $scope.newHabitModal.remove();
+      $scope.newDailyModal.remove();
+      $scope.newTodoModal.remove();
+    });
   })
 
   .controller('ChallengesCtrl', function($scope, $state, ApiUtil, ToastUtil, $filter) {
@@ -146,7 +259,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     $scope.sync = function(){
       $scope.synchronizing = true;
       ApiUtil.getChallenge($stateParams.challengeId).then(function(challenge){
-        console.log(challenge);
+        //console.log(challenge);
         $scope.challenge = challenge;
         $scope.synchronizing = false;
       }).catch(function(err){

@@ -9,7 +9,7 @@
         <i ng-click="toggleTask(tasks.habits)"
            class="icon" ng-class="isTaskShown(tasks.habits) ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
         {{'task_habits' | translate}}
-        <i class="icon ion-android-add"></i>
+        <i class="icon ion-android-add" ng-click="gotoNewHabit()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.habits.items"
            ng-show="isTaskShown(tasks.habits)">
@@ -39,7 +39,7 @@
         <i ng-click="toggleTask(tasks.dailies)"
            class="icon" ng-class="isTaskShown(tasks.dailies) ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
         {{'task_dailies' | translate}}
-        <i class="icon ion-android-add"></i>
+        <i class="icon ion-android-add" ng-click="gotoNewDaily()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.dailies.items"
            ng-show="isTaskShown(tasks.dailies)">
@@ -55,7 +55,7 @@
         <i ng-click="toggleTask(tasks.todos)"
            class="icon" ng-class="isTaskShown(tasks.todos) ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
         {{'task_todos' | translate}}
-        <i class="icon ion-android-add"></i>
+        <i class="icon ion-android-add" ng-click="gotoNewTodo()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.todos.items"
            ng-show="isTaskShown(tasks.todos)">
@@ -66,6 +66,71 @@
         </button>
       </div>
     </div>
-
   </ion-content>
 </ion-view>
+
+
+<script id="tasks-newHabit.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar class="bar-calm">
+      <div class="buttons">
+        <button class="button button-small button-icon icon ion-android-arrow-back" ng-click="closeNewHabit()"></button>
+      </div>
+      <h1 class="title">{{'task_habits_create' | translate}}</h1>
+      <div class="buttons">
+        <button class="button icon-left ion-android-done" ng-click="createNewHabit()">{{'action_done' | translate}}</button>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="{{'task_new_title' | translate}}" ng-model="newHabit.text">
+        </label>
+        <label class="item item-input">
+          <textarea style="height: 100px" placeholder="{{'task_new_notes' | translate}}" ng-model="newHabit.notes"></textarea>
+        </label>
+        <ion-toggle ng-model="newHabit.up" toggle-class="toggle-royal">{{'task_new_up' | translate}}</ion-toggle>
+        <ion-toggle ng-model="newHabit.down" toggle-class="toggle-royal">{{'task_new_down' | translate}}</ion-toggle>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+<script id="tasks-newDaily.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar class="bar-calm">
+      <div class="buttons">
+        <button class="button button-small button-icon icon ion-android-arrow-back" ng-click="closeNewDaily()"></button>
+      </div>
+      <h1 class="title">{{'task_dailies_create' | translate}}</h1>
+      <div class="buttons">
+        <button class="button icon-left ion-android-done" ng-click="createNewDaily()">{{'action_done' | translate}}</button>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+
+    </ion-content>
+  </ion-modal-view>
+</script>
+<script id="tasks-newTodo.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar class="bar-calm">
+      <div class="buttons">
+        <button class="button button-small button-icon icon ion-android-arrow-back" ng-click="closeNewTodo()"></button>
+      </div>
+      <h1 class="title">{{'task_todos_create' | translate}}</h1>
+      <div class="buttons">
+        <button class="button icon-left ion-android-done" ng-click="createNewTodo()">{{'action_done' | translate}}</button>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="{{'task_new_title' | translate}}" ng-model="newTodo.text">
+        </label>
+        <label class="item item-input">
+          <textarea style="height: 100px" placeholder="{{'task_new_notes' | translate}}" ng-model="newTodo.notes"></textarea>
+        </label>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
