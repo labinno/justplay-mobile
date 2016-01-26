@@ -14,14 +14,18 @@
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.habits.items"
            ng-show="isTaskShown(tasks.habits)">
         {{item.text}}
-        <button ng-show="item.type === 'habit' && item.up && !item.down" class="button button-balanced"
-                ng-click="scoreTask(item, 'up')">
-          <i class="icon ion-happy"></i>
-        </button>
-        <button ng-show="item.type === 'habit' && item.down && !item.up" class="button button-energized"
-                ng-click="scoreTask(item, 'down')">
-          <i class="icon ion-sad"></i>
-        </button>
+        <div ng-show="item.type === 'habit' && item.up && !item.down" class="buttons">
+          <button class="button button-balanced"
+                  ng-click="scoreTask(item, 'up')">
+            <i class="icon ion-happy"></i>
+          </button>
+        </div>
+        <div ng-show="item.type === 'habit' && item.down && !item.up" class="buttons">
+          <button class="button button-energized"
+                  ng-click="scoreTask(item, 'down')">
+            <i class="icon ion-sad"></i>
+          </button>
+        </div>
         <div ng-show="item.type === 'habit' && item.down && item.up" class="buttons">
           <button class="button button-balanced"
                   ng-click="scoreTask(item, 'up')">
@@ -44,10 +48,12 @@
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.dailies.items"
            ng-show="isTaskShown(tasks.dailies)">
         {{item.text}}
-        <button ng-show="item.type === 'daily' && !item.completed" class="button button-balanced"
-                ng-click="scoreTask(item, 'up')">
-          <i class="icon ion-checkmark-circled"></i>
-        </button>
+        <div ng-show="item.type === 'daily' && !item.completed" class="buttons">
+          <button class="button button-balanced"
+                  ng-click="scoreTask(item, 'up')">
+            <i class="icon ion-checkmark-circled"></i>
+          </button>
+        </div>
       </div>
 
       <div class="item item-icon-left item-icon-right item-royal"
@@ -60,10 +66,13 @@
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.todos.items"
            ng-show="isTaskShown(tasks.todos)">
         {{item.text}}
-        <button ng-show="item.type === 'todo' && !item.completed" class="button button-balanced"
-                ng-click="scoreTask(item, 'up')">
-          <i class="icon ion-checkmark-circled"></i>
-        </button>
+        <div ng-show="item.type === 'todo' && !item.completed" class="buttons">
+          <button class="button button-balanced"
+                     ng-click="scoreTask(item, 'up')">
+            <i class="icon ion-checkmark-circled"></i>
+          </button>
+        </div>
+
       </div>
     </div>
   </ion-content>
@@ -78,7 +87,7 @@
       </div>
       <h1 class="title">{{'task_habits_create' | translate}}</h1>
       <div class="buttons">
-        <button class="button icon-left ion-android-done" ng-click="createNewHabit()">{{'action_done' | translate}}</button>
+        <button class="button icon-left ion-android-done" ng-click="createNewHabit()">{{'action_save' | translate}}</button>
       </div>
     </ion-header-bar>
     <ion-content>
@@ -91,10 +100,21 @@
         </label>
         <ion-toggle ng-model="newHabit.up" toggle-class="toggle-royal">{{'task_new_up' | translate}}</ion-toggle>
         <ion-toggle ng-model="newHabit.down" toggle-class="toggle-royal">{{'task_new_down' | translate}}</ion-toggle>
+        <div class="item item-divider item-royal">
+          {{'task_new_difficulty' | translate}}
+        </div>
+        <form>
+          <ion-radio ng-model="newHabit.priority" ng-value="0.1">{{'task_new_difficulty_trivial' | translate}}</ion-radio>
+          <ion-radio ng-model="newHabit.priority" ng-value="1">{{'task_new_difficulty_easy' | translate}}</ion-radio>
+          <ion-radio ng-model="newHabit.priority" ng-value="1.5">{{'task_new_difficulty_medium' | translate}}</ion-radio>
+          <ion-radio ng-model="newHabit.priority" ng-value="2">{{'task_new_difficulty_hard' | translate}}</ion-radio>
+        </form>
       </div>
     </ion-content>
   </ion-modal-view>
 </script>
+
+
 <script id="tasks-newDaily.html" type="text/ng-template">
   <ion-modal-view>
     <ion-header-bar class="bar-calm">
@@ -103,14 +123,70 @@
       </div>
       <h1 class="title">{{'task_dailies_create' | translate}}</h1>
       <div class="buttons">
-        <button class="button icon-left ion-android-done" ng-click="createNewDaily()">{{'action_done' | translate}}</button>
+        <button class="button icon-left ion-android-done" ng-click="createNewDaily()">{{'action_save' | translate}}</button>
       </div>
     </ion-header-bar>
     <ion-content>
+      <div class="list">
 
+        <label class="item item-input">
+          <input type="text" placeholder="{{'task_new_title' | translate}}" ng-model="newDaily.text">
+        </label>
+
+        <label class="item item-input">
+          <textarea style="height: 100px" placeholder="{{'task_new_notes' | translate}}" ng-model="newDaily.notes"></textarea>
+        </label>
+
+        <div class="item" ng-click="chooseStartDate()">
+          {{'task_new_startdate' | translate}}
+          <span class="item-note">{{newDaily.startDate | date: 'yyyy-MM-dd'}}</span>
+        </div>
+
+        <div class="item item-divider item-royal">
+          {{'task_new_frequency' | translate}}
+        </div>
+        <form>
+          <ion-radio ng-model="newDaily.frequency" ng-value="'weekly'">{{'task_new_frequency_weekly' | translate}}</ion-radio>
+          <ion-radio ng-model="newDaily.frequency" ng-value="'daily'">{{'task_new_frequency_daily' | translate}}</ion-radio>
+        </form>
+
+        <div class="item item-button-right" ng-if="newDaily.frequency === 'daily'">
+          {{'task_new_everyx' | translate}}
+          <div class="buttons">
+            <button class="button button-royal button-icon button-clear icon ion-android-arrow-dropleft" ng-click="decrEveryX()"></button>
+            <button class="button button-outline button-royal">{{newDaily.everyX}} {{getEveryXUnit()}}</button>
+            <button class="button button-royal button-icon button-clear icon ion-android-arrow-dropright" ng-click="incrEveryX()"></button>
+          </div>
+        </div>
+
+        <div ng-if="newDaily.frequency === 'weekly'">
+          <div class="item item-divider item-royal">
+            {{'task_new_repeat' | translate}}
+          </div>
+          <ion-toggle ng-model="newDaily.repeat.m" toggle-class="toggle-royal">{{'task_new_repeat_m' | translate}}</ion-toggle>
+          <ion-toggle ng-model="newDaily.repeat.t" toggle-class="toggle-royal">{{'task_new_repeat_t' | translate}}</ion-toggle>
+          <ion-toggle ng-model="newDaily.repeat.w" toggle-class="toggle-royal">{{'task_new_repeat_w' | translate}}</ion-toggle>
+          <ion-toggle ng-model="newDaily.repeat.th" toggle-class="toggle-royal">{{'task_new_repeat_th' | translate}}</ion-toggle>
+          <ion-toggle ng-model="newDaily.repeat.f" toggle-class="toggle-royal">{{'task_new_repeat_f' | translate}}</ion-toggle>
+          <ion-toggle ng-model="newDaily.repeat.s" toggle-class="toggle-royal">{{'task_new_repeat_s' | translate}}</ion-toggle>
+          <ion-toggle ng-model="newDaily.repeat.su" toggle-class="toggle-royal">{{'task_new_repeat_su' | translate}}</ion-toggle>
+        </div>
+
+        <div class="item item-divider item-royal">
+          {{'task_new_difficulty' | translate}}
+        </div>
+        <form>
+          <ion-radio ng-model="newDaily.priority" ng-value="0.1">{{'task_new_difficulty_trivial' | translate}}</ion-radio>
+          <ion-radio ng-model="newDaily.priority" ng-value="1">{{'task_new_difficulty_easy' | translate}}</ion-radio>
+          <ion-radio ng-model="newDaily.priority" ng-value="1.5">{{'task_new_difficulty_medium' | translate}}</ion-radio>
+          <ion-radio ng-model="newDaily.priority" ng-value="2">{{'task_new_difficulty_hard' | translate}}</ion-radio>
+        </form>
+      </div>
     </ion-content>
   </ion-modal-view>
 </script>
+
+
 <script id="tasks-newTodo.html" type="text/ng-template">
   <ion-modal-view>
     <ion-header-bar class="bar-calm">
@@ -119,7 +195,7 @@
       </div>
       <h1 class="title">{{'task_todos_create' | translate}}</h1>
       <div class="buttons">
-        <button class="button icon-left ion-android-done" ng-click="createNewTodo()">{{'action_done' | translate}}</button>
+        <button class="button icon-left ion-android-done" ng-click="createNewTodo()">{{'action_save' | translate}}</button>
       </div>
     </ion-header-bar>
     <ion-content>
@@ -130,6 +206,15 @@
         <label class="item item-input">
           <textarea style="height: 100px" placeholder="{{'task_new_notes' | translate}}" ng-model="newTodo.notes"></textarea>
         </label>
+        <div class="item item-divider item-royal">
+          {{'task_new_difficulty' | translate}}
+        </div>
+        <form>
+          <ion-radio ng-model="newTodo.priority" ng-value="0.1">{{'task_new_difficulty_trivial' | translate}}</ion-radio>
+          <ion-radio ng-model="newTodo.priority" ng-value="1">{{'task_new_difficulty_easy' | translate}}</ion-radio>
+          <ion-radio ng-model="newTodo.priority" ng-value="1.5">{{'task_new_difficulty_medium' | translate}}</ion-radio>
+          <ion-radio ng-model="newTodo.priority" ng-value="2">{{'task_new_difficulty_hard' | translate}}</ion-radio>
+        </form>
       </div>
     </ion-content>
   </ion-modal-view>

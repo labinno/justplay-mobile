@@ -20,9 +20,11 @@
       <h1 class="title">{{'settings' | translate}} - {{'settings_lang' | translate}}</h1>
     </ion-header-bar>
     <ion-content>
-      <ion-list>
-        <ion-radio ng-repeat="lang in langs" ng-click="changeLang(lang.name)" ng-model="settings.lang" ng-value="lang.name">{{lang.label}}</ion-radio>
-      </ion-list>
+      <form>
+        <ion-radio ng-click="changeLang('en')" ng-model="settings.lang" ng-value="'en'">{{'settings_lang_en' | translate}}</ion-radio>
+        <ion-radio ng-click="changeLang('fr')" ng-model="settings.lang" ng-value="'fr'">{{'settings_lang_fr' | translate}}</ion-radio>
+        <ion-radio ng-click="changeLang('cn')" ng-model="settings.lang" ng-value="'cn'">{{'settings_lang_cn' | translate}}</ion-radio>
+      </form>
     </ion-content>
   </ion-modal-view>
 </script>

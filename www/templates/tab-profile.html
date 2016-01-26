@@ -23,22 +23,22 @@
         <div style="width: 100%; height: 30px; line-height: 30px" class="assertive">
           <i class="icon ion-heart"></i> <b>{{'profile_health' | translate}}</b> {{profile.health}} / {{profile.healthMax}}
         </div>
-        <div style="width: 100%; height: 30px; border: solid 1px #da5353" class="assertive-border">
-          <div ng-style="{'width': profile.healthPercent + '%'}" style="height: 28px" class="assertive-bg"></div>
+        <div style="width: 100%; height: 30px; background-color: #ffb0b0" class="assertive-border">
+          <div ng-style="{'width': profile.healthPercent + '%'}" style="height: inherit" class="assertive-bg"></div>
         </div>
 
         <div style="width: 100%; height: 30px; line-height: 30px; margin-top: 10px" class="energized">
           <i class="icon ion-android-star"></i> <b>{{'profile_exp' | translate}}</b> {{profile.exp}} / {{profile.expNextLevel}}
         </div>
-        <div style="width: 100%; height: 30px; border: solid 1px #ffcc35" class="energized-border">
-          <div ng-style="{'width': profile.expPercent + '%'}" style="height: 28px" class="energized-bg"></div>
+        <div style="width: 100%; height: 30px; background-color: #fff2cb" class="energized-border">
+          <div ng-style="{'width': profile.expPercent + '%'}" style="height: inherit" class="energized-bg"></div>
         </div>
 
         <div style="width: 100%; height: 30px; line-height: 30px; margin-top: 10px" class="positive">
           <i class="icon ion-fireball"></i> <b>{{'profile_mana' | translate}}</b> {{profile.mana}} / {{profile.manaMax}}
         </div>
-        <div style="width: 100%; height: 30px; border: solid 1px #4781e7" class="positive-border">
-          <div ng-style="{'width': profile.manaPercent + '%'}" style="height: 28px" class="positive-bg"></div>
+        <div style="width: 100%; height: 30px; background-color: #eff4fd" class="positive-border">
+          <div ng-style="{'width': profile.manaPercent + '%'}" style="height: inherit" class="positive-bg"></div>
         </div>
       </div>
 
