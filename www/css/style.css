@@ -1,15 +1,16 @@
 .img_cards {
   background: url("../img/justplay-cards.png") no-repeat center;
   background-size: contain;
-  margin: 6vh auto;
-  height: 20vh;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height: 150px;
 }
 
 .img_logocap {
   background: url("../img/capgemini-logo.jpg") no-repeat left;
   background-size: contain;
-  margin: 2vh;
-  height: 5vh;
+  margin-top: 20px;
+  height: 40px;
 }
 
 .img_avatar {

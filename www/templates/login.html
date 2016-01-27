@@ -1,11 +1,13 @@
 <ion-view view-title="{{'app_name' | translate}}" hide-nav-bar="true">
   <ion-content>
-
-    <div class="img_logocap"></div>
-    <div class="img_cards"></div>
-
     <form ng-submit="doLogin()">
       <div class="list">
+        <div class="item item-borderless">
+          <div class="img_logocap"></div>
+        </div>
+        <div class="item item-borderless text-center">
+          <div class="img_cards"></div>
+        </div>
         <label class="item item-input">
           <input ng-model="login.username" class="text-center" type="text"
                  placeholder="{{'login_username' | translate}}">
