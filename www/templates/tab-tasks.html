@@ -12,21 +12,21 @@
         <i class="icon ion-android-add" ng-click="gotoNewHabit()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.habits.items"
-           ng-show="isTaskShown(tasks.habits)">
-        {{item.text}}
-        <div ng-show="item.type === 'habit' && item.up && !item.down" class="buttons">
+           ng-if="isTaskShown(tasks.habits)">
+        <div ng-click="gotoTask(item)">{{item.text}}</div>
+        <div ng-if="item.type === 'habit' && item.up && !item.down" class="buttons">
           <button class="button button-balanced"
                   ng-click="scoreTask(item, 'up')">
             <i class="icon ion-happy"></i>
           </button>
         </div>
-        <div ng-show="item.type === 'habit' && item.down && !item.up" class="buttons">
+        <div ng-if="item.type === 'habit' && item.down && !item.up" class="buttons">
           <button class="button button-energized"
                   ng-click="scoreTask(item, 'down')">
             <i class="icon ion-sad"></i>
           </button>
         </div>
-        <div ng-show="item.type === 'habit' && item.down && item.up" class="buttons">
+        <div ng-if="item.type === 'habit' && item.down && item.up" class="buttons">
           <button class="button button-balanced"
                   ng-click="scoreTask(item, 'up')">
             <i class="icon ion-happy"></i>
@@ -46,9 +46,9 @@
         <i class="icon ion-android-add" ng-click="gotoNewDaily()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.dailies.items"
-           ng-show="isTaskShown(tasks.dailies)">
-        {{item.text}}
-        <div ng-show="item.type === 'daily' && !item.completed" class="buttons">
+           ng-if="isTaskShown(tasks.dailies)">
+        <div ng-click="gotoTask(item)">{{item.text}}</div>
+        <div ng-if="item.type === 'daily' && !item.completed" class="buttons">
           <button class="button button-balanced"
                   ng-click="scoreTask(item, 'up')">
             <i class="icon ion-checkmark-circled"></i>
@@ -64,9 +64,9 @@
         <i class="icon ion-android-add" ng-click="gotoNewTodo()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.todos.items"
-           ng-show="isTaskShown(tasks.todos)">
-        {{item.text}}
-        <div ng-show="item.type === 'todo' && !item.completed" class="buttons">
+           ng-if="isTaskShown(tasks.todos)">
+        <div ng-click="gotoTask(item)">{{item.text}}</div>
+        <div ng-if="item.type === 'todo' && !item.completed" class="buttons">
           <button class="button button-balanced"
                      ng-click="scoreTask(item, 'up')">
             <i class="icon ion-checkmark-circled"></i>

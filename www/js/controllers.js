@@ -17,10 +17,15 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
 
     $scope.doLogin = function(){
       if($scope.login.username && $scope.login.password){
-        ApiUtil.login($scope.login.username, $scope.login.password).then(function(){
-          gotoApp();
+        ApiUtil.checkStatus().then(function(){
+          ApiUtil.login($scope.login.username, $scope.login.password).then(function(){
+            gotoApp();
+          }).catch(function(err){
+            ToastUtil.showShort(err);
+          });
         }).catch(function(err){
-          ToastUtil.showShort(err);
+          if(err === "down") ToastUtil.showShort($filter('translate')('notif_server_down'));
+          else ToastUtil.showShort($filter('translate')('notif_connexion_error'));
         });
       }
       else{
@@ -30,11 +35,16 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
 
     var user = StorageUtil.getUser();
     if(user && user.uuid && user.token){
-      gotoApp();
+      ApiUtil.checkStatus().then(function(){
+        gotoApp();
+      }).catch(function(err){
+        if(err === "down") ToastUtil.showShort($filter('translate')('notif_server_down'));
+        else ToastUtil.showShort($filter('translate')('notif_connexion_error'));
+      });
     }
   })
 
-  .controller('TasksCtrl', function($cordovaDatePicker, $ionicModal, $scope, $filter, ApiUtil, ToastUtil) {
+  .controller('TasksCtrl', function($cordovaDatePicker, $ionicModal, $scope, $state, $filter, ApiUtil, ToastUtil) {
     $scope.tasks = {
       habits: {
         items: [],
@@ -57,26 +67,50 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
       return task.show;
     };
 
+    var updateHabit = function(habit){
+      for(var i = 0; i < $scope.tasks.habits.items.length; i++){
+        if($scope.tasks.habits.items[i].id === habit.id){
+          $scope.tasks.habits.items[i] = habit;
+          return;
+        }
+      }
+      $scope.tasks.habits.items.push(habit);
+    };
+
+    var updateDaily = function(daily){
+      for(var i = 0; i < $scope.tasks.dailies.items.length; i++){
+        if($scope.tasks.dailies.items[i].id === daily.id){
+          $scope.tasks.dailies.items[i] = daily;
+          return;
+        }
+      }
+      $scope.tasks.dailies.items.push(daily);
+    };
+
+    var updateTodo = function(todo){
+      for(var i = 0; i < $scope.tasks.todos.items.length; i++){
+        if($scope.tasks.todos.items[i].id === todo.id){
+          $scope.tasks.todos.items[i] = todo;
+          return;
+        }
+      }
+      $scope.tasks.todos.items.push(todo);
+    };
+
     $scope.sync = function(){
       $scope.synchronizing = true;
       ApiUtil.getTasks().then(function(tasks){
-        $scope.tasks.habits.items = [];
-        $scope.tasks.dailies.items = [];
-        $scope.tasks.todos.items = [];
         for(var i = 0; i < tasks.length; i++){
           switch (tasks[i].type){
             case "habit":
-              console.log(tasks[i]);
-              $scope.tasks.habits.items.push(tasks[i]);
+              updateHabit(tasks[i]);
               break;
             case "daily":
-              console.log(tasks[i]);
-              $scope.tasks.dailies.items.push(tasks[i]);
+              updateDaily(tasks[i]);
               break;
             case "todo":
               if(!tasks[i].completed) {
-                console.log(tasks[i]);
-                $scope.tasks.todos.items.push(tasks[i]);
+                updateTodo(tasks[i]);
               }
               break;
             default:
@@ -267,6 +301,200 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     $scope.closeNewTodo = function(){
       $scope.newTodoModal.hide();
     };
+
+    $scope.gotoTask = function(task){
+      $state.go('tab.task-detail', {task: task});
+    };
+  })
+
+  .controller('TaskDetailCtrl', function($ionicModal, $cordovaDatePicker, $scope, $stateParams, $state, $filter, ApiUtil, PopupUtil, ToastUtil){
+    $scope.task = $stateParams.task;
+
+    $scope.sync = function(){
+      $scope.synchronizing = true;
+      ApiUtil.getTask($scope.task.id).then(function(task){
+        //console.log(challenge);
+        $scope.task = task;
+        $scope.synchronizing = false;
+      }).catch(function(err){
+        $scope.synchronizing = false;
+        ToastUtil.showShort(err);
+      });
+    };
+
+    $scope.$on('$ionicView.enter', function(){
+      $scope.sync();
+    });
+
+    $ionicModal.fromTemplateUrl('tasks-newHabit.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.newHabitModal = modal;
+    });
+    $ionicModal.fromTemplateUrl('tasks-newDaily.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.newDailyModal = modal;
+    });
+    $ionicModal.fromTemplateUrl('tasks-newTodo.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.newTodoModal = modal;
+    });
+    $scope.$on('$destroy', function() {
+      $scope.newHabitModal.remove();
+      $scope.newDailyModal.remove();
+      $scope.newTodoModal.remove();
+    });
+
+    $scope.gotoNewHabit = function(){
+      $scope.newHabitModal.show();
+    };
+    $scope.gotoNewDaily = function(){
+      $scope.newDailyModal.show();
+    };
+    $scope.gotoNewTodo = function(){
+      $scope.newTodoModal.show();
+    };
+
+    $scope.closeNewHabit = function(){
+      $scope.newHabitModal.hide();
+    };
+    $scope.closeNewDaily = function(){
+      $scope.newDailyModal.hide();
+    };
+    $scope.closeNewTodo = function(){
+      $scope.newTodoModal.hide();
+    };
+
+    $scope.incrEveryX = function(){$scope.newDaily.everyX++;};
+    $scope.decrEveryX = function(){if($scope.newDaily.everyX > 1) $scope.newDaily.everyX--;};
+    $scope.getEveryXUnit = function(){return $scope.newDaily.everyX > 1 ? $filter('translate')('task_new_everyx_units') : $filter('translate')('task_new_everyx_unit')};
+    $scope.chooseStartDate = function(){
+      var options = {
+        date: $scope.newDaily.startDate,
+        mode: 'date',
+        minDate: new Date(),
+        allowOldDates: false,
+        allowFutureDates: true,
+        doneButtonLabel: $filter('translate')('action_done'),
+        doneButtonColor: '#66c6e7',
+        cancelButtonLabel: $filter('translate')('action_cancel'),
+        cancelButtonColor: '#000000'
+      };
+      $cordovaDatePicker.show(options).then(function(date){
+        $scope.newDaily.startDate = date;
+      });
+    };
+
+    $scope.createNewHabit = function(){
+      $scope.newHabit.dateCreated = Date.now;
+      $scope.newHabit.tags = {};
+      $scope.newHabit.value = 0;
+      $scope.newHabit.attribute = "str";
+      $scope.newHabit.type = "habit";
+
+      if(!$scope.newHabit.text || $scope.newHabit.text.trim() === ""){
+        ToastUtil.showLong($filter('translate')('notif_task_new_title_invalid'));
+      }
+      else if(!$scope.newHabit.up && !$scope.newHabit.down){
+        ToastUtil.showLong($filter('translate')('notif_task_new_direction_invalid'));
+      }
+      else {
+        ApiUtil.updateTask($scope.task.id, $scope.newHabit).then(function(){
+          ToastUtil.showShort($filter('translate')('notif_task_updated'));
+          $scope.task = $scope.newHabit;
+          $scope.closeNewHabit();
+          $scope.sync();
+        });
+      }
+    };
+
+    $scope.createNewDaily = function(){
+      $scope.newDaily.dateCreated = Date.now;
+      $scope.newDaily.tags = {};
+      $scope.newDaily.value = 0;
+      $scope.newDaily.attribute = "str";
+      $scope.newDaily.type = "daily";
+      $scope.newDaily.completed = false;
+      $scope.newDaily.streak = 0;
+
+      if(!$scope.newDaily.text || $scope.newDaily.text.trim() === ""){
+        ToastUtil.showLong($filter('translate')('notif_task_new_title_invalid'));
+      }
+      else {
+        ApiUtil.updateTask($scope.task.id, $scope.newDaily).then(function(){
+          ToastUtil.showShort($filter('translate')('notif_task_updated'));
+          $scope.task = $scope.newDaily;
+          $scope.closeNewDaily();
+          $scope.sync();
+        });
+      }
+    };
+
+    $scope.createNewTodo = function(){
+      $scope.newTodo.dateCreated = Date.now;
+      $scope.newTodo.tags = {};
+      $scope.newTodo.value = 0;
+      $scope.newTodo.attribute = "str";
+      $scope.newTodo.type = "todo";
+      $scope.newTodo.completed = false;
+
+      if(!$scope.newTodo.text || $scope.newTodo.text.trim() === ""){
+        ToastUtil.showLong($filter('translate')('notif_task_new_title_invalid'));
+      }
+      else {
+        ApiUtil.updateTask($scope.task.id, $scope.newTodo).then(function(){
+          ToastUtil.showShort($filter('translate')('notif_task_updated'));
+          $scope.task = $scope.newTodo;
+          $scope.closeNewTodo();
+          $scope.sync();
+        });
+      }
+    };
+
+    $scope.editTask = function(){
+      switch ($scope.task.type){
+        case 'habit':
+          $scope.newHabit = $scope.task;
+          $scope.gotoNewHabit();
+          break;
+        case 'daily':
+          $scope.newDaily = $scope.task;
+          $scope.gotoNewDaily();
+          break;
+        case 'todo':
+          $scope.newTodo = $scope.task;
+          $scope.gotoNewTodo();
+          break;
+        default:
+      }
+    };
+
+    $scope.deleteTask = function(){
+      PopupUtil.showConfirm(
+        $filter('translate')('notif_delete_task'), "",
+        $filter('translate')('action_yes')
+      ).then(function(ans){
+        if(ans){
+          ApiUtil.deleteTask($scope.task.id).then(function(){
+            $state.go('tab.tasks');
+          });
+        }
+      });
+    };
+
+    $scope.getDifficulty = function(value){
+      switch (value){
+        case 1: return $filter('translate')('task_new_difficulty_easy');
+        case 1.5: return $filter('translate')('task_new_difficulty_medium');
+        case 2: return $filter('translate')('task_new_difficulty_hard');
+        default: return $filter('translate')('task_new_difficulty_trivial');
+      }
+    };
   })
 
   .controller('ChallengesCtrl', function($scope, $state, ApiUtil, ToastUtil, $filter) {
@@ -290,7 +518,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
 
     $scope.gotoChallenge = function(challenge){
       if(challenge._isMember){
-        $state.go('tab.challenge-detail', {challengeId: challenge._id});
+        $state.go('tab.challenge-detail', {challenge: challenge});
       }
       else{
         ToastUtil.showShort($filter('translate')('notif_not_challenge_member'));
@@ -309,11 +537,11 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
   })
 
   .controller('ChallengeDetailCtrl', function($ionicModal, $scope, $state, $stateParams, $filter, ApiUtil, ToastUtil, PopupUtil) {
-    $scope.challenge = {};
+    $scope.challenge = $stateParams.challenge;
 
     $scope.sync = function(){
       $scope.synchronizing = true;
-      ApiUtil.getChallenge($stateParams.challengeId).then(function(challenge){
+      ApiUtil.getChallenge($scope.challenge._id).then(function(challenge){
         //console.log(challenge);
         $scope.challenge = challenge;
         $scope.synchronizing = false;
@@ -403,7 +631,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     };
   })
 
-  .controller('ProfileCtrl', function($scope, $state, ApiUtil, ToastUtil) {
+  .controller('ProfileCtrl', function($scope, $state, ApiUtil, ToastUtil, $filter) {
     $scope.profile = {};
 
     $scope.sync = function(){
@@ -441,7 +669,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     });
 
     $scope.gotoSettings = function(){
-      $state.go('settings');
+      $state.go('tab.settings');
     };
   })
 

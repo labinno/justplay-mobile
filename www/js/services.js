@@ -350,6 +350,44 @@ angular.module('starter.services', ['ionic','ngCordova'])
     return deferred.promise;
   };
 
+  var updateTask = function(id, task){
+    var deferred = $q.defer();
+    $http({
+      method: 'PUT',
+      url: ApiRoot + "/user/tasks/" + id,
+      headers: {
+        'Content-Type': "application/json",
+        'x-api-user': auth.uuid,
+        'x-api-key': auth.token
+      },
+      data: task
+    }).then(function(res){
+      var data = res.data;
+      deferred.resolve(data);
+    }, function(err){
+      deferred.reject(err);
+    });
+    return deferred.promise;
+  };
+
+  var getTask = function(id){
+    var deferred = $q.defer();
+    $http({
+      method: 'GET',
+      url: ApiRoot + "/user/tasks/" + id,
+      headers: {
+        'x-api-user': auth.uuid,
+        'x-api-key': auth.token
+      }
+    }).then(function(res){
+      var data = res.data;
+      deferred.resolve(data);
+    }, function(err){
+      deferred.reject(err);
+    });
+    return deferred.promise;
+  };
+
   var deleteTask = function(id){
     var deferred = $q.defer();
     $http({
@@ -378,6 +416,8 @@ angular.module('starter.services', ['ionic','ngCordova'])
     joinChallenge: joinChallenge,
     leaveChallenge: leaveChallenge,
     createTask: createTask,
+    getTask: getTask,
+    updateTask: updateTask,
     scoreTask: scoreTask,
     deleteTask: deleteTask
   };

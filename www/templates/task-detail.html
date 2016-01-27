@@ -1,0 +1,36 @@
+<ion-view view-title="{{task.text}}">
+  <ion-nav-buttons side="right">
+    <i ng-show="!synchronizing" ng-click="sync()" class="button button-small button-icon icon ion-android-sync"></i>
+  </ion-nav-buttons>
+  <ion-content>
+
+    <div class="list">
+      <div class="item text-center">
+        <h1><b>{{task.text}}</b></h1>
+      </div>
+
+      <div class="item item-borderless stable-bg">
+        <p>{{'task_new_notes' | translate}}:</p>
+        <p><b>{{task.notes}}</b></p>
+        <p>{{'task_new_difficulty' | translate}}:
+          <b>{{getDifficulty(task.priority)}}</b>
+        </p>
+      </div>
+
+      <div class="item item-divider"></div>
+
+      <div class="item item-icon-left item-icon-right" ng-click="editTask()">
+        <i class="icon ion-android-create"></i>
+        {{'action_edit' | translate}}
+        <i class="icon ion-chevron-right icon-goto"></i>
+      </div>
+
+      <div class="item item-divider"></div>
+
+      <div class="item text-center item-royal" ng-click="deleteTask()">
+        {{'action_delete' | translate}}
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>

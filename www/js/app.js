@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'pascalprecht.translate'])
 
-.run(function($ionicPlatform, $state, $rootScope, $filter, $translate, StorageUtil, PopupUtil, ConstUtil, ApiUtil, ToastUtil) {
+.run(function($ionicPlatform, $state, $rootScope, $filter, $translate, StorageUtil, PopupUtil, ConstUtil) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -44,21 +44,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   if(savedSettings && savedSettings.lang){
       $rootScope.settings.lang = savedSettings.lang;
       $translate.use(savedSettings.lang);
-  }
-
-  // restore user
-  var user = StorageUtil.getUser();
-  if(user && user.uuid && user.token){
-    ApiUtil.checkStatus().then(function(){
-      $state.go('tab.tasks');
-    }).catch(function(err){
-      if(err === "down") ToastUtil.showShort($filter('translate')('notif_server_down'));
-      else ToastUtil.showShort(err);
-      $state.go('login');
-    });
-  }
-  else {
-    $state.go('login');
   }
 })
 
@@ -97,6 +82,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+    .state('tab.task-detail', {
+      url: '/task',
+      params: {task: null},
+      views: {
+        'tab-tasks': {
+          templateUrl: 'templates/task-detail.html',
+          controller: 'TaskDetailCtrl'
+        }
+      }
+    })
+
   .state('tab.challenges', {
       url: '/challenges',
       views: {
@@ -107,7 +103,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     })
     .state('tab.challenge-detail', {
-      url: '/challenges/:challengeId',
+      url: '/challenge',
+      params: {challenge: null},
       views: {
         'tab-challenges': {
           templateUrl: 'templates/challenge-detail.html',
@@ -126,10 +123,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
-    .state('settings', {
+    .state('tab.settings', {
       url: "/settings",
-      templateUrl: "templates/settings.html",
-      controller: 'SettingsCtrl'
+      views: {
+        'tab-profile': {
+          templateUrl: "templates/settings.html",
+          controller: 'SettingsCtrl'
+        }
+      }
     });
 
 })
@@ -153,11 +154,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "tasks" : "My tasks",
     "task_habits": "Habits",
-    "task_habits_create": "Create a habit",
+    "task_habits_create": "Habit",
     "task_dailies": "Dailies",
-    "task_dailies_create": "Create a daily",
+    "task_dailies_create": "Daily",
     "task_todos": "To-Dos",
-    "task_todos_create": "Create a to-do",
+    "task_todos_create": "To-do",
     "task_new_title": "Title",
     "task_new_notes": "Notes",
     "task_new_up": "Positive direction",
@@ -211,8 +212,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "action_join": "Join",
     "action_leave": "Leave",
+    "action_delete": "Delete",
+    "action_edit": "Edit",
 
     "notif_server_down": "The server is not responding",
+    "notif_connexion_error": "Connexion error",
     "notif_login_invalid": "Username or password invalid",
     "notif_logout": "Log out from Just Play?",
     "notif_sync" : "Synchronizing...",
@@ -221,9 +225,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "notif_task_up": "Bravo!",
     "notif_task_down": "Never again!",
     "notif_task_created": "Task created",
+    "notif_task_updated": "Task updated",
     "notif_task_new_title_invalid": "Title must not be empty",
     "notif_task_new_direction_invalid": "At least one direction should be selected",
-    "notif_leave": "Are you sure to leave this challenge?"
+    "notif_leave": "Are you sure to leave this challenge?",
+    "notif_delete_task": "Are you sure to delete this task?"
   };
   var labels_fr = {
     "app_name" : "Just Play",
@@ -239,11 +245,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "tasks" : "Mes tâches",
     "task_habits": "Habitudes",
-    "task_habits_create": "Créer une habitude",
+    "task_habits_create": "Habitude",
     "task_dailies": "Quotidiennes",
-    "task_dailies_create": "Créer une quotidienne",
+    "task_dailies_create": "Quotidienne",
     "task_todos": "To-Dos",
-    "task_todos_create": "Créer une to-do",
+    "task_todos_create": "To-do",
     "task_new_title": "Titre",
     "task_new_notes": "Notes",
     "task_new_up": "Direction positive",
@@ -297,8 +303,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "action_join": "Participer",
     "action_leave": "Quitter",
+    "action_delete": "Supprimer",
+    "action_edit": "Modifier",
 
     "notif_server_down": "Le serveur ne répond pas",
+    "notif_connexion_error": "Erreur de connexion",
     "notif_login_invalid": "Username or password invalid",
     "notif_logout": "Déconnectez-vous de Just Play ?",
     "notif_sync" : "Synchronisation ...",
@@ -307,9 +316,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "notif_task_up": "Bravo !",
     "notif_task_down": "Ne plus jamais !",
     "notif_task_created": "Tâche créée",
+    "notif_task_updated": "Tâche mise à jour",
     "notif_task_new_title_invalid": "Titre ne doit pas être vide",
     "notif_task_new_direction_invalid": "Au moins une direction doit être sélectionnée",
-    "notif_leave": "Êtes-vous sûr de quitter le défi ?"
+    "notif_leave": "Êtes-vous sûr de quitter ce défi ?",
+    "notif_delete_task": "Êtes-vous sûr de supprimer cette tâche ?"
   };
   var labels_cn = {
     "app_name" : "Just Play",
@@ -325,11 +336,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "tasks" : "我的任务",
     "task_habits": "习惯",
-    "task_habits_create": "新建习惯",
+    "task_habits_create": "习惯",
     "task_dailies": "日常",
-    "task_dailies_create": "新建日常",
+    "task_dailies_create": "日常",
     "task_todos": "待办事项",
-    "task_todos_create": "新建待办事项",
+    "task_todos_create": "待办事项",
     "task_new_title": "标题",
     "task_new_notes": "说明",
     "task_new_up": "积极方向",
@@ -383,8 +394,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "action_join": "加入",
     "action_leave": "退出",
+    "action_delete": "删除",
+    "action_edit": "编辑",
 
     "notif_server_down": "服务器无响应",
+    "notif_connexion_error": "无网络连接",
     "notif_login_invalid": "Username or password invalid",
     "notif_logout": "确定要退出 Just Play？",
     "notif_sync" : "同步中 ...",
@@ -393,9 +407,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "notif_task_up": "干得好！",
     "notif_task_down": "下不为例！",
     "notif_task_created": "任务创建成功",
+    "notif_task_updated": "任务编辑成功",
     "notif_task_new_title_invalid": "标题不能为空",
     "notif_task_new_direction_invalid": "至少应选择一个方向",
-    "notif_leave": "确定要退出挑战？"
+    "notif_leave": "确定要退出挑战？",
+    "notif_delete_task": "确定要删除此任务？"
   };
 
   $translateProvider.translations('en', labels_en);
