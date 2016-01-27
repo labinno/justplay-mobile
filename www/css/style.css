@@ -1,20 +1,15 @@
-/* Empty. Add your own CSS if you like */
-.list .item.item-accordion {
-  transition: 0.01s all linear;
-}
-.list .item.item-accordion.ng-hide {
-  line-height: 0;
-}
-.list .item.item-accordion.ng-hide-add,
-.list .item.item-accordion.ng-hide-remove {
-  display: block !important;
+.img_cards {
+  background: url("../img/justplay-cards.png") no-repeat center;
+  background-size: contain;
+  margin: 6vh auto;
+  height: 20vh;
 }
 
 .img_logocap {
-  background: url("../img/capgemini-logo.jpg") no-repeat center;
+  background: url("../img/capgemini-logo.jpg") no-repeat left;
   background-size: contain;
-  margin: 10vh auto;
-  height: 10vh;
+  margin: 2vh;
+  height: 5vh;
 }
 
 .img_avatar {

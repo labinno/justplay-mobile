@@ -5,16 +5,14 @@
   <ion-content>
 
     <div class="list">
-      <div class="item text-center">
-        <h1><b>{{task.text}}</b></h1>
+      <div class="item text-center item-text-wrap">
+        <b style="font-size: larger">{{task.text}}</b>
       </div>
 
       <div class="item item-borderless stable-bg">
+        <p>{{'task_new_difficulty' | translate}}: <b>{{getDifficulty(task.priority)}}</b></p>
         <p>{{'task_new_notes' | translate}}:</p>
         <p><b>{{task.notes}}</b></p>
-        <p>{{'task_new_difficulty' | translate}}:
-          <b>{{getDifficulty(task.priority)}}</b>
-        </p>
       </div>
 
       <div class="item item-divider"></div>

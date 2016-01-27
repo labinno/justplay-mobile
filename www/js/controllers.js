@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ionic', 'ngCordova'])
 
-  .controller('LoginCtrl', function($ionicHistory, $scope, $state, StorageUtil, $filter, ApiUtil, ToastUtil) {
+  .controller('LoginCtrl', function($ionicLoading, $ionicHistory, $scope, $state, StorageUtil, $filter, ApiUtil, ToastUtil) {
     $scope.login = {};
 
     $scope.$on('$ionicView.enter', function(){
@@ -17,13 +17,19 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
 
     $scope.doLogin = function(){
       if($scope.login.username && $scope.login.password){
+        $ionicLoading.show({
+          template: $filter('translate')('login_loading')
+        });
         ApiUtil.checkStatus().then(function(){
           ApiUtil.login($scope.login.username, $scope.login.password).then(function(){
+            $ionicLoading.hide();
             gotoApp();
           }).catch(function(err){
+            $ionicLoading.hide();
             ToastUtil.showShort(err);
           });
         }).catch(function(err){
+          $ionicLoading.hide();
           if(err === "down") ToastUtil.showShort($filter('translate')('notif_server_down'));
           else ToastUtil.showShort($filter('translate')('notif_connexion_error'));
         });
@@ -35,9 +41,14 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
 
     var user = StorageUtil.getUser();
     if(user && user.uuid && user.token){
+      $ionicLoading.show({
+        template: $filter('translate')('login_loading')
+      });
       ApiUtil.checkStatus().then(function(){
+        $ionicLoading.hide();
         gotoApp();
       }).catch(function(err){
+        $ionicLoading.hide();
         if(err === "down") ToastUtil.showShort($filter('translate')('notif_server_down'));
         else ToastUtil.showShort($filter('translate')('notif_connexion_error'));
       });
@@ -45,6 +56,22 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
   })
 
   .controller('TasksCtrl', function($cordovaDatePicker, $ionicModal, $scope, $state, $filter, ApiUtil, ToastUtil) {
+    $scope.rawTasks = [];
+    var getTasksByType = function(type){
+      var tasks = [];
+      for(var i = 0; i < $scope.rawTasks.length; i++){
+        if(type === $scope.rawTasks[i].type){
+          if($scope.rawTasks[i].type === 'todo'){
+            if(!$scope.rawTasks[i].completed) tasks.push($scope.rawTasks[i]);
+          }
+          else {
+            tasks.push($scope.rawTasks[i]);
+          }
+        }
+      }
+      return tasks;
+    };
+
     $scope.tasks = {
       habits: {
         items: [],
@@ -60,62 +87,18 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
       }
     };
 
-    $scope.toggleTask = function(task) {
-      task.show = !task.show;
-    };
-    $scope.isTaskShown = function(task) {
-      return task.show;
-    };
-
-    var updateHabit = function(habit){
-      for(var i = 0; i < $scope.tasks.habits.items.length; i++){
-        if($scope.tasks.habits.items[i].id === habit.id){
-          $scope.tasks.habits.items[i] = habit;
-          return;
-        }
-      }
-      $scope.tasks.habits.items.push(habit);
-    };
-
-    var updateDaily = function(daily){
-      for(var i = 0; i < $scope.tasks.dailies.items.length; i++){
-        if($scope.tasks.dailies.items[i].id === daily.id){
-          $scope.tasks.dailies.items[i] = daily;
-          return;
-        }
-      }
-      $scope.tasks.dailies.items.push(daily);
-    };
-
-    var updateTodo = function(todo){
-      for(var i = 0; i < $scope.tasks.todos.items.length; i++){
-        if($scope.tasks.todos.items[i].id === todo.id){
-          $scope.tasks.todos.items[i] = todo;
-          return;
-        }
-      }
-      $scope.tasks.todos.items.push(todo);
+    $scope.toggleTasks = function(tasks) {
+      tasks.show = !tasks.show;
     };
 
     $scope.sync = function(){
       $scope.synchronizing = true;
       ApiUtil.getTasks().then(function(tasks){
-        for(var i = 0; i < tasks.length; i++){
-          switch (tasks[i].type){
-            case "habit":
-              updateHabit(tasks[i]);
-              break;
-            case "daily":
-              updateDaily(tasks[i]);
-              break;
-            case "todo":
-              if(!tasks[i].completed) {
-                updateTodo(tasks[i]);
-              }
-              break;
-            default:
-          }
-        }
+        $scope.rawTasks = tasks;
+        $scope.tasks.habits.items = getTasksByType('habit');
+        $scope.tasks.dailies.items = getTasksByType('daily');
+        $scope.tasks.todos.items = getTasksByType('todo');
+
         $scope.synchronizing = false;
       }).catch(function(err){
         $scope.synchronizing = false;

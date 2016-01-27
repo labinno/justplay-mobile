@@ -151,6 +151,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "login_username" : "Username",
     "login_password" : "Password",
+    "login_loading": "Loading...",
 
     "tasks" : "My tasks",
     "task_habits": "Habits",
@@ -161,8 +162,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "task_todos_create": "To-do",
     "task_new_title": "Title",
     "task_new_notes": "Notes",
-    "task_new_up": "Positive direction",
-    "task_new_down": "Negative direction",
+    "task_new_up": "Positive action",
+    "task_new_down": "Negative action",
     "task_new_startdate": "Start date",
     "task_new_difficulty": "Difficulty",
     "task_new_difficulty_trivial": "Trivial",
@@ -209,6 +210,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "action_signin" : "Sign in",
     "action_logout" : "Log out",
+    "login_loading": "Loading...",
 
     "action_join": "Join",
     "action_leave": "Leave",
@@ -252,8 +254,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "task_todos_create": "To-do",
     "task_new_title": "Titre",
     "task_new_notes": "Notes",
-    "task_new_up": "Direction positive",
-    "task_new_down": "Direction négative",
+    "task_new_up": "Action positive",
+    "task_new_down": "Action négative",
     "task_new_startdate": "Date de démarrage",
     "task_new_difficulty": "Difficulté",
     "task_new_difficulty_trivial": "Trivial",
@@ -333,6 +335,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     "login_username" : "Username",
     "login_password" : "Password",
+    "login_loading": "Loading...",
 
     "tasks" : "我的任务",
     "task_habits": "习惯",
@@ -343,8 +346,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     "task_todos_create": "待办事项",
     "task_new_title": "标题",
     "task_new_notes": "说明",
-    "task_new_up": "积极方向",
-    "task_new_down": "消极方向",
+    "task_new_up": "积极行为",
+    "task_new_down": "消极行为",
     "task_new_startdate": "起始日期",
     "task_new_difficulty": "难度",
     "task_new_difficulty_trivial": "普通",

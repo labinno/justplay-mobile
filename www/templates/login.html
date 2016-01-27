@@ -1,18 +1,25 @@
-<ion-view view-title="{{'app_name' | translate}}">
+<ion-view view-title="{{'app_name' | translate}}" hide-nav-bar="true">
   <ion-content>
 
     <div class="img_logocap"></div>
+    <div class="img_cards"></div>
 
     <form ng-submit="doLogin()">
-    <div class="list">
-      <label class="item item-input">
-        <input ng-model="login.username" class="text-center" type="text" placeholder="{{'login_username' | translate}}">
-      </label>
-      <label class="item item-input">
-        <input ng-model="login.password" class="text-center" type="password" placeholder="{{'login_password' | translate}}">
-      </label>
-      <button ng-click="doLogin()" class="button button-full button-royal" type="submit">{{'action_signin' | translate}}</button>
-    </div>
+      <div class="list">
+        <label class="item item-input">
+          <input ng-model="login.username" class="text-center" type="text"
+                 placeholder="{{'login_username' | translate}}">
+        </label>
+        <label class="item item-input">
+          <input ng-model="login.password" class="text-center" type="password"
+                 placeholder="{{'login_password' | translate}}">
+        </label>
+        <div class="item item-divider item-light"></div>
+      </div>
+      <button style="margin-top: -42px; z-index: 60" class="button button-full button-royal" type="submit">
+        {{'action_signin' | translate}}
+      </button>
     </form>
+
   </ion-content>
 </ion-view>

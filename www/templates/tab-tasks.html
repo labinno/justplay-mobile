@@ -5,14 +5,14 @@
   <ion-content>
     <div class="list">
       <div class="item item-icon-left item-icon-right item-royal"
-           ng-class="{active: isTaskShown(tasks.habits)}">
-        <i ng-click="toggleTask(tasks.habits)"
-           class="icon" ng-class="isTaskShown(tasks.habits) ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
+           ng-class="{active: tasks.habits.show}">
+        <i ng-click="toggleTasks(tasks.habits)"
+           class="icon" ng-class="tasks.habits.show ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
         {{'task_habits' | translate}}
         <i class="icon ion-android-add" ng-click="gotoNewHabit()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.habits.items"
-           ng-if="isTaskShown(tasks.habits)">
+           ng-if="tasks.habits.show">
         <div ng-click="gotoTask(item)">{{item.text}}</div>
         <div ng-if="item.type === 'habit' && item.up && !item.down" class="buttons">
           <button class="button button-balanced"
@@ -39,14 +39,14 @@
       </div>
 
       <div class="item item-icon-left item-icon-right item-royal"
-           ng-class="{active: isTaskShown(tasks.dailies)}">
-        <i ng-click="toggleTask(tasks.dailies)"
-           class="icon" ng-class="isTaskShown(tasks.dailies) ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
+           ng-class="{active: tasks.dailies.show}">
+        <i ng-click="toggleTasks(tasks.dailies)"
+           class="icon" ng-class="tasks.dailies.show ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
         {{'task_dailies' | translate}}
         <i class="icon ion-android-add" ng-click="gotoNewDaily()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.dailies.items"
-           ng-if="isTaskShown(tasks.dailies)">
+           ng-if="tasks.dailies.show">
         <div ng-click="gotoTask(item)">{{item.text}}</div>
         <div ng-if="item.type === 'daily' && !item.completed" class="buttons">
           <button class="button button-balanced"
@@ -57,14 +57,14 @@
       </div>
 
       <div class="item item-icon-left item-icon-right item-royal"
-           ng-class="{active: isTaskShown(tasks.todos)}">
-        <i ng-click="toggleTask(tasks.todos)"
-           class="icon" ng-class="isTaskShown(tasks.todos) ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
+           ng-class="{active: tasks.todos.show}">
+        <i ng-click="toggleTasks(tasks.todos)"
+           class="icon" ng-class="tasks.todos.show ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
         {{'task_todos' | translate}}
         <i class="icon ion-android-add" ng-click="gotoNewTodo()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.todos.items"
-           ng-if="isTaskShown(tasks.todos)">
+           ng-if="tasks.todos.show">
         <div ng-click="gotoTask(item)">{{item.text}}</div>
         <div ng-if="item.type === 'todo' && !item.completed" class="buttons">
           <button class="button button-balanced"

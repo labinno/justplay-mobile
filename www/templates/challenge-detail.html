@@ -4,8 +4,8 @@
   </ion-nav-buttons>
   <ion-content>
     <div class="list">
-      <div class="item text-center">
-        <h1><b>{{challenge.name}}</b></h1>
+      <div class="item text-center item-text-wrap">
+        <b style="font-size: larger">{{challenge.name}}</b>
       </div>
 
       <div class="item item-borderless stable-bg">
@@ -53,6 +53,7 @@
     </ion-header-bar>
     <ion-content>
       <div class="list">
+
         <div class="item item-divider item-royal">{{'task_habits' | translate}}</div>
         <div class="item item-button-right" ng-repeat="t in challenge.habits">
           {{t.text}}
@@ -79,6 +80,7 @@
             </button>
           </div>
         </div>
+
         <div class="item item-divider item-royal">{{'task_dailies' | translate}}</div>
         <div class="item item-button-right" ng-repeat="t in challenge.dailys">
           {{t.text}}
@@ -89,6 +91,7 @@
             </button>
           </div>
         </div>
+
         <div class="item item-divider item-royal">{{'task_todos' | translate}}</div>
         <div class="item item-button-right" ng-repeat="t in challenge.todos">
           {{t.text}}
@@ -100,6 +103,7 @@
           </div>
         </div>
       </div>
+
     </ion-content>
   </ion-modal-view>
 </script>
