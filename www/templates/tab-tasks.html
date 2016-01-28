@@ -8,7 +8,7 @@
            ng-class="{active: tasks.habits.show}">
         <i ng-click="toggleTasks(tasks.habits)"
            class="icon" ng-class="tasks.habits.show ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
-        {{'task_habits' | translate}}
+        <div ng-click="toggleTasks(tasks.habits)">{{'task_habits' | translate}}</div>
         <i class="icon ion-android-add" ng-click="gotoNewHabit()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.habits.items"
@@ -42,7 +42,7 @@
            ng-class="{active: tasks.dailies.show}">
         <i ng-click="toggleTasks(tasks.dailies)"
            class="icon" ng-class="tasks.dailies.show ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
-        {{'task_dailies' | translate}}
+        <div ng-click="toggleTasks(tasks.dailies)">{{'task_dailies' | translate}}</div>
         <i class="icon ion-android-add" ng-click="gotoNewDaily()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.dailies.items"
@@ -60,7 +60,7 @@
            ng-class="{active: tasks.todos.show}">
         <i ng-click="toggleTasks(tasks.todos)"
            class="icon" ng-class="tasks.todos.show ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
-        {{'task_todos' | translate}}
+        <div ng-click="toggleTasks(tasks.todos)">{{'task_todos' | translate}}</div>
         <i class="icon ion-android-add" ng-click="gotoNewTodo()"></i>
       </div>
       <div class="item item-accordion item-button-right" ng-repeat="item in tasks.todos.items"

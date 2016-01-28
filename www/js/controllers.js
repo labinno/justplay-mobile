@@ -248,7 +248,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
           cancelButtonColor: '#000000'
         };
         $cordovaDatePicker.show(options).then(function(date){
-          $scope.newDaily.startDate = date;
+          if(date) $scope.newDaily.startDate = date;
         });
       };
     };
@@ -369,7 +369,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
         cancelButtonColor: '#000000'
       };
       $cordovaDatePicker.show(options).then(function(date){
-        $scope.newDaily.startDate = date;
+        if(date) $scope.newDaily.startDate = date;
       });
     };
 
