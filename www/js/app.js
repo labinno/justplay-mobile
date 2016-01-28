@@ -18,7 +18,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
+      StatusBar.overlaysWebView(false);
+      StatusBar.styleLightContent();
+      StatusBar.backgroundColorByHexString("#314048");
     }
   });
 
@@ -140,6 +142,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 })
 
 .config(function($translateProvider){
+  $translateProvider.useSanitizeValueStrategy('escape');
+
   var labels_en = {
     "app_name" : "Just Play",
 
