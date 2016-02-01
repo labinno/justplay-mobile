@@ -17,23 +17,23 @@
         <div ng-if="item.type === 'habit' && item.up && !item.down" class="buttons">
           <button class="button button-balanced"
                   ng-click="scoreTask(item, 'up')">
-            <i class="icon ion-happy"></i>
+            <i class="icon ion-plus-circled"></i>
           </button>
         </div>
         <div ng-if="item.type === 'habit' && item.down && !item.up" class="buttons">
           <button class="button button-energized"
                   ng-click="scoreTask(item, 'down')">
-            <i class="icon ion-sad"></i>
+            <i class="icon ion-minus-circled"></i>
           </button>
         </div>
         <div ng-if="item.type === 'habit' && item.down && item.up" class="buttons">
           <button class="button button-balanced"
                   ng-click="scoreTask(item, 'up')">
-            <i class="icon ion-happy"></i>
+            <i class="icon ion-plus-circled"></i>
           </button>
           <button class="button button-energized"
                   ng-click="scoreTask(item, 'down')">
-            <i class="icon ion-sad"></i>
+            <i class="icon ion-minus-circled"></i>
           </button>
         </div>
       </div>

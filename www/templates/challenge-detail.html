@@ -60,23 +60,23 @@
           <div ng-if="t.type === 'habit' && t.up && !t.down" class="buttons">
             <button class="button button-balanced"
                     ng-click="scoreTask(t, 'up')">
-              <i class="icon ion-happy"></i>
+              <i class="icon ion-plus-circled"></i>
             </button>
           </div>
           <div ng-if="t.type === 'habit' && t.down && !t.up" class="buttons">
             <button class="button button-energized"
                     ng-click="scoreTask(t, 'down')">
-              <i class="icon ion-sad"></i>
+              <i class="icon ion-minus-circled"></i>
             </button>
           </div>
           <div ng-if="t.type === 'habit' && t.down && t.up" class="buttons">
             <button class="button button-balanced"
                     ng-click="scoreTask(t, 'up')">
-              <i class="icon ion-happy"></i>
+              <i class="icon ion-plus-circled"></i>
             </button>
             <button class="button button-energized"
                     ng-click="scoreTask(t, 'down')">
-              <i class="icon ion-sad"></i>
+              <i class="icon ion-minus-circled"></i>
             </button>
           </div>
         </div>
