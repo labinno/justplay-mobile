@@ -14,28 +14,28 @@
       </div>
 
       <div class="item item-borderless row">
-        <div class="col col-33 positive money"><div class="img_diamond"></div> {{profile.gem}}</div>
-        <div class="col col-33 energized money"><div class="img_gold"></div> {{profile.gold}}</div>
-        <div class="col col-33 dark money"><div class="img_silver"></div> {{profile.silver}}</div>
+        <div class="col col-33 positive money"><div class="img_diamond"></div> <b>{{profile.gem}}</b></div>
+        <div class="col col-33 energized money"><div class="img_gold"></div> <b>{{profile.gold}}</b></div>
+        <div class="col col-33 dark money"><div class="img_silver"></div> <b>{{profile.silver}}</b></div>
       </div>
 
       <div class="item">
         <div style="width: 100%; height: 30px; line-height: 30px" class="assertive">
-          <i class="icon ion-heart"></i> <b>{{'profile_health' | translate}}</b> {{profile.health}} / {{profile.healthMax}}
+          <i class="icon ion-heart"></i> {{'profile_health' | translate}} <b>{{profile.health}} / {{profile.healthMax}}</b>
         </div>
         <div style="width: 100%; height: 30px; background-color: #ffb0b0" class="assertive-border">
           <div ng-style="{'width': profile.healthPercent + '%'}" style="height: inherit" class="assertive-bg"></div>
         </div>
 
         <div style="width: 100%; height: 30px; line-height: 30px; margin-top: 10px" class="energized">
-          <i class="icon ion-android-star"></i> <b>{{'profile_exp' | translate}}</b> {{profile.exp}} / {{profile.expNextLevel}}
+          <i class="icon ion-android-star"></i> {{'profile_exp' | translate}} <b>{{profile.exp}} / {{profile.expNextLevel}}</b>
         </div>
         <div style="width: 100%; height: 30px; background-color: #fff2cb" class="energized-border">
           <div ng-style="{'width': profile.expPercent + '%'}" style="height: inherit" class="energized-bg"></div>
         </div>
 
         <div style="width: 100%; height: 30px; line-height: 30px; margin-top: 10px" class="positive">
-          <i class="icon ion-fireball"></i> <b>{{'profile_mana' | translate}}</b> {{profile.mana}} / {{profile.manaMax}}
+          <i class="icon ion-fireball"></i> {{'profile_mana' | translate}} <b>{{profile.mana}} / {{profile.manaMax}}</b>
         </div>
         <div style="width: 100%; height: 30px; background-color: #eff4fd" class="positive-border">
           <div ng-style="{'width': profile.manaPercent + '%'}" style="height: inherit" class="positive-bg"></div>
