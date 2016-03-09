@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'pascalprecht.translate'])
 
-.run(function($ionicPlatform, $state, $rootScope, $filter, $translate, StorageUtil, PopupUtil, ConstUtil) {
+.run(function($ionicPlatform, $state, $rootScope, $filter, $translate, $ionicHistory, StorageUtil, PopupUtil, ConstUtil) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -31,6 +31,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       if(ans){
         StorageUtil.clearAppData();
         $translate.use('en');
+        $ionicHistory.nextViewOptions({
+          disableBack: true,
+          historyRoot: true
+        });
         $state.go('login');
       }
     });
